@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Dannyj1:mistral-java-client:0.1'
+    implementation 'com.github.Dannyj1:mistral-java-client:0.1.1'
 }
 ```
 
