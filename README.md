@@ -138,6 +138,7 @@ public class HelloWorld {
 - [ ] Add support for streaming in message completions
 - [ ] Add support for embedding models
 - [ ] Figure out how Mistral handles rate limiting and create a queue system to handle it
+- [ ] Unit tests
 
 # License
 
