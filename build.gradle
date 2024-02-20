@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'nl.dannyj'
-version = '0.1.1'
+version = '0.1.2'
 
 repositories {
     mavenCentral()
@@ -24,6 +24,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+java {
+    sourceCompatibility = '11'
 }
 
 test {
