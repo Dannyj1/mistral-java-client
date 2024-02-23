@@ -22,6 +22,10 @@ Mistral-java-client is built against version 0.0.1 of the [Mistral AI API](https
 - [List Available Models](https://docs.mistral.ai/api/#operation/listModels)
 - "Create Embeddings" to be implemented later
 
+# Requirements
+- Java 17 or higher
+- A Mistral AI API Key (see the [Mistral documentation](https://docs.mistral.ai/#api-access) for more details on API access)
+
 # Installation
 
 ## Gradle
