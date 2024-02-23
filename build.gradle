@@ -28,7 +28,7 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 }
 
 publishing {
