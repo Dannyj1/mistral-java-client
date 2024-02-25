@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.request;
+package nl.dannyj.mistral.models.completion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nl.dannyj.mistral.models.Message;
+import nl.dannyj.mistral.models.Request;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ChatCompletionRequest {
+public class ChatCompletionRequest implements Request {
 
     /**
      * ID of the model to use. You can use the List Available Models API to see all of your available models.

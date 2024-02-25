@@ -21,11 +21,15 @@ import jakarta.validation.*;
 import lombok.NonNull;
 import nl.dannyj.mistral.MistralClient;
 import nl.dannyj.mistral.exceptions.UnexpectedResponseException;
-import nl.dannyj.mistral.models.Message;
-import nl.dannyj.mistral.models.MessageRole;
-import nl.dannyj.mistral.models.request.ChatCompletionRequest;
-import nl.dannyj.mistral.models.response.ChatCompletionResponse;
-import nl.dannyj.mistral.models.response.ListModelsResponse;
+import nl.dannyj.mistral.models.Request;
+import nl.dannyj.mistral.models.Response;
+import nl.dannyj.mistral.models.completion.ChatCompletionRequest;
+import nl.dannyj.mistral.models.completion.ChatCompletionResponse;
+import nl.dannyj.mistral.models.completion.Message;
+import nl.dannyj.mistral.models.completion.MessageRole;
+import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
+import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
+import nl.dannyj.mistral.models.model.ListModelsResponse;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -42,7 +46,8 @@ public class MistralService {
 
     /**
      * Constructor that initializes the MistralService with a provided MistralClient and HttpService.
-     * @param client The MistralClient to be used for interacting with the Mistral AI API
+     *
+     * @param client      The MistralClient to be used for interacting with the Mistral AI API
      * @param httpService The HttpService to be used for making HTTP requests
      */
     public MistralService(@NonNull MistralClient client, @NonNull HttpService httpService) {
@@ -57,19 +62,14 @@ public class MistralService {
     /**
      * Use the Mistral AI API to create a chat completion (an assistant reply to the conversation).
      * This is a blocking method.
+     *
      * @param request The request to create a chat completion. See {@link ChatCompletionRequest}.
      * @return The response from the Mistral AI API containing the generated message. See {@link ChatCompletionResponse}.
      * @throws ConstraintViolationException if the request does not pass validation
-     * @throws UnexpectedResponseException if an unexpected response is received from the Mistral AI API
-     * @throws IllegalArgumentException if the first message role is not 'user' or 'system'
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     * @throws IllegalArgumentException     if the first message role is not 'user' or 'system'
      */
     public ChatCompletionResponse createChatCompletion(@NonNull ChatCompletionRequest request) {
-        Set<ConstraintViolation<ChatCompletionRequest>> violations = validator.validate(request);
-
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
-
         Message firstMessage = request.getMessages().get(0);
         MessageRole role = firstMessage.getRole();
 
@@ -77,21 +77,13 @@ public class MistralService {
             throw new IllegalArgumentException("The first message role should be either 'user' or 'system'");
         }
 
-        String response = null;
-
-        try {
-            String requestJson = client.getObjectMapper().writeValueAsString(request);
-            response = httpService.post("/chat/completions", requestJson);
-
-            return client.getObjectMapper().readValue(response, ChatCompletionResponse.class);
-        } catch (JsonProcessingException e) {
-            throw new UnexpectedResponseException("Received unexpected response from the Mistral.ai API (mistral-java-client might need to be updated): " + response, e);
-        }
+        return validateRequestAndPost("/chat/completions", request, ChatCompletionResponse.class);
     }
 
     /**
      * Use the Mistral AI API to create a chat completion (an assistant reply to the conversation).
      * This is a non-blocking/asynchronous method.
+     *
      * @param request The request to create a chat completion. See {@link ChatCompletionRequest}.
      * @return A CompletableFuture that will complete with generated message from the Mistral AI API. See {@link ChatCompletionResponse}.
      */
@@ -101,6 +93,8 @@ public class MistralService {
 
     /**
      * Lists all models available according to the Mistral AI API.
+     * This is a blocking method.
+     *
      * @return The response from the Mistral AI API containing the list of models. See {@link ListModelsResponse}.
      * @throws UnexpectedResponseException if an unexpected response is received from the Mistral AI API
      */
@@ -109,6 +103,76 @@ public class MistralService {
 
         try {
             return client.getObjectMapper().readValue(response, ListModelsResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new UnexpectedResponseException("Received unexpected response from the Mistral.ai API (mistral-java-client might need to be updated): " + response, e);
+        }
+    }
+
+    /**
+     * Lists all models available according to the Mistral AI API.
+     * This is a non-blocking/asynchronous method.
+     *
+     * @return A CompletableFuture that will complete with the list of models from the Mistral AI API. See {@link ListModelsResponse}.
+     */
+    public CompletableFuture<ListModelsResponse> listModelsAsync() {
+        return CompletableFuture.supplyAsync(this::listModels);
+    }
+
+    /**
+     * This method is used to create an embedding using the Mistral AI API.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * This is a blocking method.
+     *
+     * @param request The request to create an embedding. See {@link EmbeddingRequest}.
+     * @return The response from the Mistral AI API containing the generated embedding. See {@link EmbeddingResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    public EmbeddingResponse createEmbedding(@NonNull EmbeddingRequest request) {
+        return validateRequestAndPost("/embeddings", request, EmbeddingResponse.class);
+    }
+
+    /**
+     * This method is used to create an embedding using the Mistral AI API.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * This is a non-blocking/asynchronous method.
+     *
+     * @param request The request to create an embedding. See {@link EmbeddingRequest}.
+     * @return A CompletableFuture that will complete with the generated embedding from the Mistral AI API. See {@link EmbeddingResponse}.
+     */
+    public CompletableFuture<EmbeddingResponse> createEmbeddingAsync(@NonNull EmbeddingRequest request) {
+        return CompletableFuture.supplyAsync(() -> createEmbedding(request));
+    }
+
+    /**
+     * This method is used to validate the request and post it to the specified endpoint.
+     * It first validates the request using the validator. If there are any constraint violations, it throws a ConstraintViolationException.
+     * If the request is valid, it converts the request to JSON and sends a POST request to the specified endpoint.
+     * The response from the endpoint is then converted back to the specified response type and returned.
+     *
+     * @param <T>          The type of the request. It must extend Request.
+     * @param <U>          The type of the response. It must extend Response.
+     * @param endpoint     The endpoint to which the request should be posted.
+     * @param request      The request to be posted.
+     * @param responseType The class of the response type.
+     * @return The response from the endpoint, converted to the specified response type.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    private <T extends Request, U extends Response> U validateRequestAndPost(String endpoint, T request, Class<U> responseType) {
+        Set<ConstraintViolation<T>> violations = validator.validate(request);
+
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
+        String response = null;
+
+        try {
+            String requestJson = client.getObjectMapper().writeValueAsString(request);
+            response = httpService.post(endpoint, requestJson);
+
+            return client.getObjectMapper().readValue(response, responseType);
         } catch (JsonProcessingException e) {
             throw new UnexpectedResponseException("Received unexpected response from the Mistral.ai API (mistral-java-client might need to be updated): " + response, e);
         }

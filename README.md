@@ -7,11 +7,12 @@ Currently supports all chat completion models. At the time of writing these are:
 - mistral-tiny
 - mistral-small
 - mistral-medium
+- mistral-embed
 
-The embedding endpoint will be supported at a later date.
+New models or models not listed here may be already supported without any updates to the library.
 
-**NOTE:** This library is currently in **alpha**. It is currently NOT possible to using streaming in message completions
-or to use embedding models. These features will be added in the future. The currently supported APIs should be stable
+**NOTE:** This library is currently in **alpha**. It is currently NOT possible to using streaming in message
+completions. This will be added in the future. The currently supported APIs should be stable
 however.
 
 # Supported APIs
@@ -20,11 +21,13 @@ Mistral-java-client is built against version 0.0.1 of the [Mistral AI API](https
 
 - [Create Chat Completions](https://docs.mistral.ai/api/#operation/createChatCompletion)
 - [List Available Models](https://docs.mistral.ai/api/#operation/listModels)
-- "Create Embeddings" to be implemented later
+- [Create Embeddings](https://docs.mistral.ai/guides/embeddings/)
 
 # Requirements
+
 - Java 17 or higher
-- A Mistral AI API Key (see the [Mistral documentation](https://docs.mistral.ai/#api-access) for more details on API access)
+- A Mistral AI API Key (see the [Mistral documentation](https://docs.mistral.ai/#api-access) for more details on API
+  access)
 
 # Installation
 
@@ -72,12 +75,15 @@ String apiKey = "API_KEY_HERE";
 MistralClient client = new MistralClient(apiKey);
 
 // Get a list of available models
-List<Model> models = client.listModels().getModels(); 
+List<Model> models = client.listModels().getModels();
 
 // Loop through all available models and print their ID. The id can be used to specify the model when creating chat completions
-for (Model model : models) {
-    System.out.println(model.getId());
-}
+for(
+Model model :models){
+        System.out.
+
+println(model.getId());
+        }
 ```
 
 Example output:
@@ -137,10 +143,41 @@ public class HelloWorld {
 '''
 ```
 
+## Embeddings
+
+```java
+// You can also put the API key in an environment variable called MISTRAL_API_KEY and remove the apiKey parameter given to the MistralClient constructor
+String apiKey = "API_KEY_HERE";
+
+// Initialize the client. This should ideally only be done once. The instance should be re-used for multiple requests
+MistralClient client = new MistralClient(apiKey);
+List<String> exampleTexts = List.of(
+        "This is a test sentence.",
+        "This is another test sentence."
+);
+
+EmbeddingRequest embeddingRequest = EmbeddingRequest.builder()
+        .model("mistral-embed") // mistral-embed is currently the only model available for embedding
+        .input(exampleTexts)
+        .build();
+
+EmbeddingResponse embeddingsResponse = client.createEmbedding(embeddingRequest);
+// Embeddings are returned as a list of FloatEmbedding objects. FloatEmbedding objects contain a list of floats per input string.
+// See the Mistral documentation for more information: https://docs.mistral.ai/guides/embeddings/
+List<FloatEmbedding> embeddings = embeddingsResponse.getData();
+embeddings.forEach(embedding -> System.out.println(embedding.getEmbedding()));
+```
+
+Example output:
+
+```
+[-0.028015137, 0.02532959, 0.042785645, ... , -0.020980835, 0.011947632, -0.0035934448]
+[-0.02015686, 0.04272461, 0.05529785, ... , -0.006855011, 0.009529114, -0.016448975]
+```
+
 # Roadmap
 
 - [ ] Add support for streaming in message completions
-- [ ] Add support for embedding models
 - [ ] Figure out how Mistral handles rate limiting and create a queue system to handle it
 - [ ] Unit tests
 

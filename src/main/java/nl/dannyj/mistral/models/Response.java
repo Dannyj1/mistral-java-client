@@ -16,30 +16,5 @@
 
 package nl.dannyj.mistral.models;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-/**
- * A message in a conversation.
- */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class Message {
-
-    /**
-     * The role of the message.
-     * Currently, there are 3 roles: user, assistant, and system.
-     */
-    @NotNull
-    private MessageRole role;
-
-    /**
-     * The content of the message.
-     */
-    @NotNull
-    private String content;
-
+public interface Response {
 }

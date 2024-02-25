@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models;
+package nl.dannyj.mistral.models.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

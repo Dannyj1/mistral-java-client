@@ -35,6 +35,7 @@ public class HttpService {
 
     /**
      * Constructor that initializes the HttpService with a provided MistralClient.
+     *
      * @param client The MistralClient to be used for making requests to the Mistral AI API
      */
     public HttpService(@NonNull MistralClient client) {
@@ -43,6 +44,7 @@ public class HttpService {
 
     /**
      * Makes a GET request to the specified URL path.
+     *
      * @param urlPath The URL path to make the GET request to
      * @return The response body as a string
      */
@@ -57,8 +59,9 @@ public class HttpService {
 
     /**
      * Makes a POST request to the specified URL path with the provided body.
+     *
      * @param urlPath The URL path to make the POST request to
-     * @param body The JSON body of the POST request
+     * @param body    The JSON body of the POST request
      * @return The response body as a string
      */
     public String post(@NonNull String urlPath, @NonNull String body) {
@@ -72,6 +75,7 @@ public class HttpService {
 
     /**
      * Executes the provided request using the OkHttpClient from the MistralClient.
+     *
      * @param request The request to be executed
      * @return The response body as a string
      * @throws MistralAPIException If the response is not successful, the response body is null or an IOException occurs in the objectmapper

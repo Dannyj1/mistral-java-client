@@ -14,47 +14,50 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models;
+package nl.dannyj.mistral.models.embedding;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import nl.dannyj.mistral.models.Response;
+import nl.dannyj.mistral.models.usage.Usage;
 
 import java.util.List;
 
 /**
- * The Model class represents a model in the Mistral AI API.
+ * The EmbeddingResponse class represents a response from the Mistral API when creating embeddings.
  * Most of these fields are undocumented.
  */
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-public class Model {
+public class EmbeddingResponse implements Response {
 
     /**
-     * The ID of the model. Should be used to refer to the model in other API calls.
+     * Unique identifier for this response.
      */
     private String id;
 
+    /**
+     * Undocumented, seems to be the type of the response.
+     */
     private String object;
 
     /**
-     * Creation time of the model in seconds since the Unix epoch.
+     * The embeddings that were created for the list of input strings.
      */
-    private long created;
+    private List<FloatEmbedding> data;
 
     /**
-     * Owner of the model.
+     * The model used to create the embeddings.
      */
-    @JsonProperty("owned_by")
-    private String ownedBy;
+    private String model;
 
-    private String root;
+    /**
+     * The token usage of the request.
+     */
+    private Usage usage;
 
-    private String parent;
-
-    private List<ModelPermission> permission;
 }

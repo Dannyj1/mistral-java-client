@@ -16,8 +16,8 @@
 
 package nl.dannyj.mistral.builders;
 
-import nl.dannyj.mistral.models.Message;
-import nl.dannyj.mistral.models.MessageRole;
+import nl.dannyj.mistral.models.completion.Message;
+import nl.dannyj.mistral.models.completion.MessageRole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,7 @@ public class MessageListBuilder {
 
     /**
      * Constructor that initializes the list of Message objects with a provided list.
+     *
      * @param messages The initial list of Message objects
      */
     public MessageListBuilder(List<Message> messages) {
@@ -48,6 +49,7 @@ public class MessageListBuilder {
 
     /**
      * Adds a message with the system role to the list with the provided content.
+     *
      * @param content The content of the system message
      * @return The builder instance
      */
@@ -58,6 +60,7 @@ public class MessageListBuilder {
 
     /**
      * Adds a message with the assistant role to the list with the provided content.
+     *
      * @param content The content of the assistant message
      * @return The builder instance
      */
@@ -68,6 +71,7 @@ public class MessageListBuilder {
 
     /**
      * Adds a message with the user role to the list with the provided content.
+     *
      * @param content The content of the user message
      * @return The builder instance
      */
@@ -78,6 +82,7 @@ public class MessageListBuilder {
 
     /**
      * Adds a custom Message object to the list.
+     *
      * @param message The Message object to be added
      * @return The builder instance
      */
@@ -88,6 +93,7 @@ public class MessageListBuilder {
 
     /**
      * Returns the list of Message objects that have been added.
+     *
      * @return The list of Message objects
      */
     public List<Message> build() {

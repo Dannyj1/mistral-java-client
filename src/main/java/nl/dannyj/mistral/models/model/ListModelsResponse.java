@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.response;
+package nl.dannyj.mistral.models.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import nl.dannyj.mistral.models.Model;
+import nl.dannyj.mistral.models.Response;
 
 import java.util.List;
 
@@ -32,8 +32,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ListModelsResponse {
+public class ListModelsResponse implements Response {
 
+    /**
+     * Undocumented, seems to be the type of the response.
+     */
     private String object;
 
     /**

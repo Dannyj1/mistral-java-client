@@ -17,13 +17,17 @@
 package nl.dannyj.mistral;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import nl.dannyj.mistral.exceptions.UnexpectedResponseException;
 import nl.dannyj.mistral.interceptors.MistralHeaderInterceptor;
-import nl.dannyj.mistral.models.request.ChatCompletionRequest;
-import nl.dannyj.mistral.models.response.ChatCompletionResponse;
-import nl.dannyj.mistral.models.response.ListModelsResponse;
+import nl.dannyj.mistral.models.completion.ChatCompletionRequest;
+import nl.dannyj.mistral.models.completion.ChatCompletionResponse;
+import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
+import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
+import nl.dannyj.mistral.models.model.ListModelsResponse;
 import nl.dannyj.mistral.services.HttpService;
 import nl.dannyj.mistral.services.MistralService;
 import okhttp3.OkHttpClient;
@@ -50,6 +54,7 @@ public class MistralClient {
 
     /**
      * Constructor that initializes the MistralClient with a provided API key.
+     *
      * @param apiKey The API key to be used for the Mistral AI API
      */
     public MistralClient(@NonNull String apiKey) {
@@ -71,8 +76,9 @@ public class MistralClient {
 
     /**
      * Constructor that initializes the MistralClient with a provided API key, HTTP client, and object mapper.
-     * @param apiKey The API key to be used for the Mistral AI API
-     * @param httpClient The OkHttpClient to be used for making requests to the Mistral AI API
+     *
+     * @param apiKey       The API key to be used for the Mistral AI API
+     * @param httpClient   The OkHttpClient to be used for making requests to the Mistral AI API
      * @param objectMapper The Jackson ObjectMapper to be used for serializing and deserializing JSON
      */
     public MistralClient(@NonNull String apiKey, @NonNull OkHttpClient httpClient, @NonNull ObjectMapper objectMapper) {
@@ -84,7 +90,8 @@ public class MistralClient {
 
     /**
      * Constructor that initializes the MistralClient with a provided API key and HTTP client.
-     * @param apiKey The API key to be used for the Mistral AI API
+     *
+     * @param apiKey     The API key to be used for the Mistral AI API
      * @param httpClient The OkHttpClient to be used for making requests to the Mistral AI API
      */
     public MistralClient(@NonNull String apiKey, @NonNull OkHttpClient httpClient) {
@@ -96,7 +103,8 @@ public class MistralClient {
 
     /**
      * Constructor that initializes the MistralClient with a provided API key and object mapper.
-     * @param apiKey The API key to be used for the Mistral AI API
+     *
+     * @param apiKey       The API key to be used for the Mistral AI API
      * @param objectMapper The Jackson ObjectMapper to be used for serializing and deserializing JSON
      */
     public MistralClient(@NonNull String apiKey, @NonNull ObjectMapper objectMapper) {
@@ -109,8 +117,12 @@ public class MistralClient {
     /**
      * Use the Mistral AI API to create a chat completion (an assistant reply to the conversation).
      * This is a blocking method.
+     *
      * @param request The request to create a chat completion. See {@link ChatCompletionRequest}.
      * @return The response from the Mistral AI API containing the generated message. See {@link ChatCompletionResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     * @throws IllegalArgumentException     if the first message role is not 'user' or 'system'
      */
     public ChatCompletionResponse createChatCompletion(@NonNull ChatCompletionRequest request) {
         return mistralService.createChatCompletion(request);
@@ -119,23 +131,70 @@ public class MistralClient {
     /**
      * Use the Mistral AI API to create a chat completion (an assistant reply to the conversation).
      * This is a non-blocking/asynchronous method.
+     *
      * @param request The request to create a chat completion. See {@link ChatCompletionRequest}.
      * @return A CompletableFuture that will complete with generated message from the Mistral AI API. See {@link ChatCompletionResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     * @throws IllegalArgumentException     if the first message role is not 'user' or 'system'
      */
     public CompletableFuture<ChatCompletionResponse> createChatCompletionAsync(@NonNull ChatCompletionRequest request) {
         return mistralService.createChatCompletionAsync(request);
     }
 
     /**
+     * This method is used to create an embedding using the Mistral AI API.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * This is a blocking method.
+     *
+     * @param request The request to create an embedding. See {@link EmbeddingRequest}.
+     * @return The response from the Mistral AI API containing the generated embedding. See {@link EmbeddingResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    public EmbeddingResponse createEmbedding(@NonNull EmbeddingRequest request) {
+        return mistralService.createEmbedding(request);
+    }
+
+    /**
+     * This method is used to create an embedding using the Mistral AI API.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * This is a non-blocking/asynchronous method.
+     *
+     * @param request The request to create an embedding. See {@link EmbeddingRequest}.
+     * @return A CompletableFuture that will complete with the generated embedding from the Mistral AI API. See {@link EmbeddingResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    public CompletableFuture<EmbeddingResponse> createEmbeddingAsync(@NonNull EmbeddingRequest request) {
+        return mistralService.createEmbeddingAsync(request);
+    }
+
+    /**
      * Lists all models available according to the Mistral AI API.
+     * This is a blocking method.
+     *
      * @return The response from the Mistral AI API containing the list of models. See {@link ListModelsResponse}.
+     * @throws UnexpectedResponseException if an unexpected response is received from the Mistral AI API
      */
     public ListModelsResponse listModels() {
         return mistralService.listModels();
     }
 
     /**
+     * Lists all models available according to the Mistral AI API.
+     * This is a non-blocking/asynchronous method.
+     *
+     * @return A CompletableFuture that will complete with the list of models from the Mistral AI API. See {@link ListModelsResponse}.
+     * @throws UnexpectedResponseException if an unexpected response is received from the Mistral AI API
+     */
+    public CompletableFuture<ListModelsResponse> listModelsAsync() {
+        return mistralService.listModelsAsync();
+    }
+
+    /**
      * Builds the MistralService.
+     *
      * @return A new instance of MistralService
      */
     private MistralService buildMistralService() {
@@ -144,6 +203,7 @@ public class MistralClient {
 
     /**
      * Builds the HTTP client.
+     *
      * @return A new instance of OkHttpClient
      */
     private OkHttpClient buildHttpClient() {
@@ -157,6 +217,7 @@ public class MistralClient {
 
     /**
      * Builds the object mapper.
+     *
      * @return A new instance of ObjectMapper
      */
     private ObjectMapper buildObjectMapper() {

@@ -14,52 +14,36 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.response;
+package nl.dannyj.mistral.models.usage;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import nl.dannyj.mistral.models.Choice;
-import nl.dannyj.mistral.models.Usage;
 
-import java.util.List;
-
-/**
- * The ChatCompletionResponse class represents a response from the Mistral API when creating a chat completion.
- * Most of these fields are undocumented.
- */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ChatCompletionResponse {
+public class Usage {
 
     /**
-     * Unique identifier for this response.
+     * The number of tokens used for the prompt ("input tokens").
      */
-    private String id;
-
-    private String object;
-
-    /**
-     * The time the chat completion was created in seconds since the epoch.
-     */
-    private long created;
+    @JsonProperty("prompt_tokens")
+    private int promptTokens;
 
     /**
-     * The model used to generate the completion.
+     * The total number of tokens used (prompt tokens + completion tokens).
      */
-    private String model;
+    @JsonProperty("total_tokens")
+    private int totalTokens;
 
     /**
-     * The generated completions.
+     * The number of tokens used for the completion ("output tokens").
      */
-    private List<Choice> choices;
-
-    /**
-     * The tokens used to generate the completion.
-     */
-    private Usage usage;
+    @JsonProperty("completion_tokens")
+    private int completionTokens;
 
 }

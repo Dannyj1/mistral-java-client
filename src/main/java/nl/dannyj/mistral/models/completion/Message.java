@@ -14,37 +14,32 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models;
+package nl.dannyj.mistral.models.completion;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
+/**
+ * A message in a conversation.
+ */
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Choice {
+public class Message {
 
     /**
-     * The index of the choice. Starts at 0.
+     * The role of the message.
+     * Currently, there are 3 roles: user, assistant, and system.
      */
-    private int index;
+    @NotNull
+    private MessageRole role;
 
     /**
-     * The message that was generated.
+     * The content of the message.
      */
-    private Message message;
-
-    /**
-     * Reason for the completion to finish.
-     */
-    @JsonProperty("finish_reason")
-    private String finishReason;
-
-    @JsonProperty("logprobs")
-    private String logProbs;
+    @NotNull
+    private String content;
 
 }
