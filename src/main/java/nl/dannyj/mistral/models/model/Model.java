@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models;
+package nl.dannyj.mistral.models.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -22,28 +22,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
+/**
+ * The Model class represents a model in the Mistral AI API.
+ * Most of these fields are undocumented.
+ */
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class Usage {
+public class Model {
 
     /**
-     * The number of tokens used for the prompt ("input tokens").
+     * The ID of the model. Should be used to refer to the model in other API calls.
      */
-    @JsonProperty("prompt_tokens")
-    private int promptTokens;
+    private String id;
+
+    private String object;
 
     /**
-     * The number of tokens used for the completion ("output tokens").
+     * Creation time of the model in seconds since the Unix epoch.
      */
-    @JsonProperty("completion_tokens")
-    private int completionTokens;
+    private long created;
 
     /**
-     * The total number of tokens used (prompt tokens + completion tokens).
+     * Owner of the model.
      */
-    @JsonProperty("total_tokens")
-    private int totalTokens;
+    @JsonProperty("owned_by")
+    private String ownedBy;
 
+    private String root;
+
+    private String parent;
+
+    private List<ModelPermission> permission;
 }
