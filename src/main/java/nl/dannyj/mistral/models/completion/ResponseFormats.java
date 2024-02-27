@@ -16,23 +16,27 @@
 
 package nl.dannyj.mistral.models.completion;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 /**
- * The response format of a completion request.
+ * The response formats supported by mistral.
  */
-public class ResponseFormat {
+public enum ResponseFormats {
+
+    TEXT("text"),
+    JSON("json_object");
+
+    private final String format;
+
+    ResponseFormats(String format) {
+        this.format = format;
+    }
 
     /**
-     * The type of the response format.
+     * @return Lowercase string representation of the format, as expected by the API.
      */
-    @NotNull
-    private ResponseFormats type = ResponseFormats.TEXT;
-
+    @JsonValue
+    public String getFormat() {
+        return format;
+    }
 }
