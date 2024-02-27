@@ -104,4 +104,11 @@ public class ChatCompletionRequest implements Request {
     @JsonProperty("random_seed")
     @Builder.Default
     private Long randomSeed = null;
+
+    /**
+     * The response format of the completion request. Defaults to "text".
+     */
+    @JsonProperty("response_format")
+    @Builder.Default
+    private ResponseFormat responseFormat = ResponseFormat.TEXT;
 }
