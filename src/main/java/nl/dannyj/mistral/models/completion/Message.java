@@ -16,8 +16,11 @@
 
 package nl.dannyj.mistral.models.completion;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 /**
  * A message in a conversation.
@@ -42,4 +45,14 @@ public class Message {
     @NotNull
     private String content;
 
+    /**
+     * Unimplemented. Don't use.
+     */
+    @JsonProperty("tool_calls")
+    private List<String> toolCalls;
+
+    public Message(MessageRole role, String content) {
+        this.role = role;
+        this.content = content;
+    }
 }

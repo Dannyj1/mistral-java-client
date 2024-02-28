@@ -22,8 +22,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,12 +37,6 @@ public class Choice {
      * The message that was generated.
      */
     private Message message;
-
-    /**
-     * Unimplemented. Don't use.
-     */
-    @JsonProperty("tool_calls")
-    private List<String> toolCalls;
 
     /**
      * Reason for the completion to finish.
