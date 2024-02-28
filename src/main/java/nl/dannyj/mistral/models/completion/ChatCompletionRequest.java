@@ -91,10 +91,10 @@ public class ChatCompletionRequest implements Request {
 
     /**
      * The response format of the completion request. Defaults to "text".
+     * Currently only usable when using mistral small and mistral large models. For other models, this MUST be set to null. Otherwise, you may get a 422 Unprocessable Content error.
      */
     @JsonProperty("response_format")
-    @NotNull
-    private ResponseFormat responseFormat = new ResponseFormat(ResponseFormats.TEXT);
+    private ResponseFormat responseFormat = null;
 
     public static class ChatCompletionRequestBuilder {
         public ChatCompletionRequestBuilder responseFormat(ResponseFormats responseFormat) {
