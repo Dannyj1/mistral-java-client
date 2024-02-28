@@ -16,6 +16,7 @@
 
 package nl.dannyj.mistral;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
@@ -221,6 +222,9 @@ public class MistralClient {
      * @return A new instance of ObjectMapper
      */
     private ObjectMapper buildObjectMapper() {
-        return new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
+
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper;
     }
 }

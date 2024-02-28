@@ -16,43 +16,23 @@
 
 package nl.dannyj.mistral.models.completion;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.List;
-
-/**
- * A message in a conversation.
- */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Message {
+/**
+ * The response format of a completion request.
+ */
+public class ResponseFormat {
 
     /**
-     * The role of the message.
-     * Currently, there are 3 roles: user, assistant, and system.
+     * The type of the response format.
      */
     @NotNull
-    private MessageRole role;
+    private ResponseFormats type = ResponseFormats.TEXT;
 
-    /**
-     * The content of the message.
-     */
-    @NotNull
-    private String content;
-
-    /**
-     * Unimplemented. Don't use.
-     */
-    @JsonProperty("tool_calls")
-    private List<String> toolCalls;
-
-    public Message(MessageRole role, String content) {
-        this.role = role;
-        this.content = content;
-    }
 }

@@ -4,15 +4,17 @@
 with the Mistral AI API from your Java application.
 Currently supports all chat completion models. At the time of writing these are:
 
-- mistral-tiny
-- mistral-small
-- mistral-medium
+- open-mistral-7b
+- open-mixtral-8x7b
+- mistral-small-latest
+- mistral-medium-latest
+- mistral-large-latest
 - mistral-embed
 
 New models or models not listed here may be already supported without any updates to the library.
 
 **NOTE:** This library is currently in **alpha**. It is currently NOT possible to using streaming in message
-completions. This will be added in the future. The currently supported APIs should be stable
+completions or function calls. This will be added in the future. The currently supported APIs should be stable
 however.
 
 # Supported APIs
@@ -176,8 +178,8 @@ Example output:
 ```
 
 # Roadmap
-
 - [ ] Add support for streaming in message completions
+- [ ] Add support for Function Calls
 - [ ] Figure out how Mistral handles rate limiting and create a queue system to handle it
 - [ ] Unit tests
 
