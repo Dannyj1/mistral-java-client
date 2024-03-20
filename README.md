@@ -1,4 +1,5 @@
 # About
+
 **Mistral-java-client** is a Java client for the [Mistral AI](https://mistral.ai/) API. It allows you to easily interact
 with the Mistral AI API from your Java application.
 Currently supports all chat completion models. At the time of writing these are:
@@ -12,11 +13,12 @@ Currently supports all chat completion models. At the time of writing these are:
 
 New models or models not listed here may be already supported without any updates to the library.
 
-**NOTE:** It is currently NOT possible to use function calls. This will be added in the future. The currently supported
-APIs should be stable.
+**NOTE:** This library is currently in **alpha**. It is currently NOT possible to using streaming in message
+completions or function calls. This will be added in the future. The currently supported APIs should be stable
 however.
 
 # Supported APIs
+
 Mistral-java-client is built against version 0.0.1 of the [Mistral AI API](https://docs.mistral.ai/api/).
 
 - [Create Chat Completions](https://docs.mistral.ai/api/#operation/createChatCompletion)
@@ -24,12 +26,15 @@ Mistral-java-client is built against version 0.0.1 of the [Mistral AI API](https
 - [Create Embeddings](https://docs.mistral.ai/guides/embeddings/)
 
 # Requirements
+
 - Java 17 or higher
 - A Mistral AI API Key (see the [Mistral documentation](https://docs.mistral.ai/#api-access) for more details on API
   access)
 
 # Installation
+
 ## Gradle
+
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
@@ -41,6 +46,7 @@ dependencies {
 ```
 
 ## Maven
+
 ```xml
 <repositories>
     <repository>
@@ -57,10 +63,12 @@ dependencies {
 ```
 
 # Usage
+
 The MistralClient class contains all the methods needed to interact with the Mistral AI API. The following examples show
 how to use the client to list available models and create chat completions.
 
 ## List Available Models
+
 ```java
 // You can also put the API key in an environment variable called MISTRAL_API_KEY and remove the apiKey parameter given to the MistralClient constructor
 String apiKey = "API_KEY_HERE";
@@ -92,7 +100,6 @@ mistral-embed
 ```
 
 ## Chat Completions
-
 The chat completion in this example code is blocking and will wait until the whole response is generated.
 See [Streaming Chat Completions](#streaming-chat-completions) for a way to stream chunks as they are being generated.
 ```java
@@ -247,9 +254,8 @@ Example output:
 ```
 
 # Roadmap
-- [ ] Add support for streaming in message completions
 - [ ] Add support for Function Calls
-- [ ] Figure out how Mistral handles rate limiting and create a queue system to handle it
+- [ ] Handle rate limiting using some sort of queue system
 - [ ] Unit tests
 
 # License
