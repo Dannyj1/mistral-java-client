@@ -1,0 +1,11 @@
+nl.dannyj.mistral
+nl.dannyj.mistral.builders
+nl.dannyj.mistral.exceptions
+nl.dannyj.mistral.interceptors
+nl.dannyj.mistral.models
+nl.dannyj.mistral.models.completion
+nl.dannyj.mistral.models.embedding
+nl.dannyj.mistral.models.model
+nl.dannyj.mistral.models.usage
+nl.dannyj.mistral.net
+nl.dannyj.mistral.services
