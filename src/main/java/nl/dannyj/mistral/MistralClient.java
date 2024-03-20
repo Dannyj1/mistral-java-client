@@ -29,6 +29,7 @@ import nl.dannyj.mistral.models.completion.ChatCompletionResponse;
 import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
 import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
 import nl.dannyj.mistral.models.model.ListModelsResponse;
+import nl.dannyj.mistral.net.ChatCompletionChunkCallback;
 import nl.dannyj.mistral.services.HttpService;
 import nl.dannyj.mistral.services.MistralService;
 import okhttp3.OkHttpClient;
@@ -191,6 +192,10 @@ public class MistralClient {
      */
     public CompletableFuture<ListModelsResponse> listModelsAsync() {
         return mistralService.listModelsAsync();
+    }
+
+    public void createChatCompletionStream(@NonNull ChatCompletionRequest request, @NonNull ChatCompletionChunkCallback callback) {
+        mistralService.createChatCompletionStream(request, callback);
     }
 
     /**

@@ -17,6 +17,7 @@ dependencies {
     implementation 'jakarta.validation:jakarta.validation-api:3.1.0-M1'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
     implementation 'org.glassfish.expressly:expressly:5.0.0'
+    implementation 'com.squareup.okio:okio:3.8.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'

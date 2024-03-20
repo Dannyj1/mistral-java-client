@@ -23,13 +23,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * A choice in a completion.
+ * A choice of a streamed message chunk in a completion.
  */
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Choice {
+public class DeltaChoice {
 
     /**
      * The index of the choice. Starts at 0.
@@ -39,6 +39,7 @@ public class Choice {
     /**
      * The message that was generated.
      */
+    @JsonProperty("delta")
     private Message message;
 
     /**

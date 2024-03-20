@@ -14,40 +14,30 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.completion;
+package nl.dannyj.mistral.net;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import nl.dannyj.mistral.models.completion.MessageChunk;
 
 /**
- * A choice in a completion.
+ * Interface for handling streaming chat completion requests.
  */
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class Choice {
+public interface ChatCompletionChunkCallback {
+    /**
+     * Called when a new message chunk of the response is received.
+     *
+     * @param chunk The received chunk
+     */
+    void onChunkReceived(MessageChunk chunk);
 
     /**
-     * The index of the choice. Starts at 0.
+     * Called when the entire response is received.
      */
-    private int index;
+    void onComplete();
 
     /**
-     * The message that was generated.
+     * Called when an error occurs during the streaming request.
+     *
+     * @param e The exception representing the error
      */
-    private Message message;
-
-    /**
-     * Reason for the completion to finish.
-     */
-    @JsonProperty("finish_reason")
-    private String finishReason;
-
-    @JsonProperty("logprobs")
-    private String logProbs;
-
+    void onError(Exception e);
 }

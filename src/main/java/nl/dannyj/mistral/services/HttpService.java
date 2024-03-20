@@ -61,7 +61,7 @@ public class HttpService {
      * Makes a POST request to the specified URL path with the provided body.
      *
      * @param urlPath The URL path to make the POST request to
-     * @param body    The JSON body of the POST request
+     * @param body The JSON body of the POST request
      * @return The response body as a string
      */
     public String post(@NonNull String urlPath, @NonNull String body) {
@@ -71,6 +71,23 @@ public class HttpService {
                 .build();
 
         return executeRequest(request);
+    }
+
+    /**
+     * Makes a streaming POST request to the specified URL path with the provided body.
+     *
+     * @param urlPath  The URL path to make the POST request to
+     * @param body     The JSON body of the POST request
+     * @param callBack The callback to handle chunks received during streaming
+     */
+    public void streamPost(@NonNull String urlPath, @NonNull String body, Callback callBack) {
+        Request request = new Request.Builder()
+                .url(API_URL + urlPath)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .build();
+        OkHttpClient httpClient = client.getHttpClient();
+
+        httpClient.newCall(request).enqueue(callBack);
     }
 
     /**

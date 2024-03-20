@@ -18,18 +18,18 @@ package nl.dannyj.mistral.models.completion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
  * A message in a conversation.
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Message {
 
     /**

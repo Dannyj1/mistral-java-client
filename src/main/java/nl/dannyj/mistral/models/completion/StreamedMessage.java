@@ -18,36 +18,21 @@ package nl.dannyj.mistral.models.completion;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-/**
- * A choice in a completion.
- */
-@Getter
+import java.util.List;
+
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class Choice {
+public class StreamedMessage {
 
-    /**
-     * The index of the choice. Starts at 0.
-     */
-    private int index;
+    private String role;
 
-    /**
-     * The message that was generated.
-     */
-    private Message message;
+    private String content;
 
-    /**
-     * Reason for the completion to finish.
-     */
-    @JsonProperty("finish_reason")
-    private String finishReason;
-
-    @JsonProperty("logprobs")
-    private String logProbs;
+    @JsonProperty("tool_calls")
+    private List<String> toolCalls;
 
 }

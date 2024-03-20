@@ -70,8 +70,7 @@ public class ChatCompletionRequest implements Request {
      * Currently not implemented, setting this to true will cause issues.
      */
     @Builder.Default
-    @AssertFalse
-    private Boolean stream = false;
+    private Boolean stream = null;
 
     /**
      * Whether to inject a safety prompt before all conversations.

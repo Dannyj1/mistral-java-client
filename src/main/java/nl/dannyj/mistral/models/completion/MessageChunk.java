@@ -16,38 +16,49 @@
 
 package nl.dannyj.mistral.models.completion;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import nl.dannyj.mistral.models.usage.Usage;
+
+import java.util.List;
 
 /**
- * A choice in a completion.
+ * A chunk of a message in a conversation.
+ * Returned when using streaming chat completions.
  */
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class Choice {
+public class MessageChunk {
 
     /**
-     * The index of the choice. Starts at 0.
+     * The ID of the message chunk.
      */
-    private int index;
+    private String id;
 
     /**
-     * The message that was generated.
+     * Always chat.completion.chunk
      */
-    private Message message;
+    private String object;
 
     /**
-     * Reason for the completion to finish.
+     * The time the message chunk was created.
      */
-    @JsonProperty("finish_reason")
-    private String finishReason;
+    private long created;
 
-    @JsonProperty("logprobs")
-    private String logProbs;
+    /**
+     * The model used to generate the completions.
+     */
+    private String model;
 
+    /**
+     * The generated completions.
+     */
+    private List<DeltaChoice> choices;
+
+    /**
+     * The tokens used to generate the completion.
+     */
+    private Usage usage;
 }
