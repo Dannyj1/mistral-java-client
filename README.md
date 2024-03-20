@@ -80,12 +80,9 @@ MistralClient client = new MistralClient(apiKey);
 List<Model> models = client.listModels().getModels();
 
 // Loop through all available models and print their ID. The id can be used to specify the model when creating chat completions
-for(
-Model model :models){
-        System.out.
-
-println(model.getId());
-        }
+for (Model model :models) {
+  System.out.println(model.getId());
+}
 ```
 
 Example output:
