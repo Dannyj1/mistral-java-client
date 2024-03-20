@@ -1,5 +1,4 @@
 # About
-
 **Mistral-java-client** is a Java client for the [Mistral AI](https://mistral.ai/) API. It allows you to easily interact
 with the Mistral AI API from your Java application.
 Currently supports all chat completion models. At the time of writing these are:
@@ -13,12 +12,11 @@ Currently supports all chat completion models. At the time of writing these are:
 
 New models or models not listed here may be already supported without any updates to the library.
 
-**NOTE:** This library is currently in **alpha**. It is currently NOT possible to using streaming in message
-completions or function calls. This will be added in the future. The currently supported APIs should be stable
+**NOTE:** It is currently NOT possible to use function calls. This will be added in the future. The currently supported
+APIs should be stable.
 however.
 
 # Supported APIs
-
 Mistral-java-client is built against version 0.0.1 of the [Mistral AI API](https://docs.mistral.ai/api/).
 
 - [Create Chat Completions](https://docs.mistral.ai/api/#operation/createChatCompletion)
@@ -26,15 +24,12 @@ Mistral-java-client is built against version 0.0.1 of the [Mistral AI API](https
 - [Create Embeddings](https://docs.mistral.ai/guides/embeddings/)
 
 # Requirements
-
 - Java 17 or higher
 - A Mistral AI API Key (see the [Mistral documentation](https://docs.mistral.ai/#api-access) for more details on API
   access)
 
 # Installation
-
 ## Gradle
-
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
@@ -46,7 +41,6 @@ dependencies {
 ```
 
 ## Maven
-
 ```xml
 <repositories>
     <repository>
@@ -63,12 +57,10 @@ dependencies {
 ```
 
 # Usage
-
 The MistralClient class contains all the methods needed to interact with the Mistral AI API. The following examples show
 how to use the client to list available models and create chat completions.
 
 ## List Available Models
-
 ```java
 // You can also put the API key in an environment variable called MISTRAL_API_KEY and remove the apiKey parameter given to the MistralClient constructor
 String apiKey = "API_KEY_HERE";
@@ -91,21 +83,25 @@ println(model.getId());
 Example output:
 
 ```
-mistral-medium
-mistral-small
-mistral-tiny
+open-mistral-7b
+open-mixtral-8x7b
+mistral-small-latest
+mistral-medium-latest
+mistral-large-latest
 mistral-embed
 ```
 
 ## Chat Completions
 
+The chat completion in this example code is blocking and will wait until the whole response is generated.
+See [Streaming Chat Completions](#streaming-chat-completions) for a way to stream chunks as they are being generated.
 ```java
 // You can also put the API key in an environment variable called MISTRAL_API_KEY and remove the apiKey parameter given to the MistralClient constructor
 String apiKey = "API_KEY_HERE";
 
 // Initialize the client. This should ideally only be done once. The instance should be re-used for multiple requests
 MistralClient client = new MistralClient(apiKey);
-String model = "mistral-tiny";
+String model = "open-mistral-7b";
 // MessageListBuilder can be used to easily create a List<Message> object, with the method specifying the role.
 // You can also manually create a list of Message objects
 List<Message> messages = new MessageListBuilder()
@@ -131,7 +127,6 @@ System.out.println(firstChoice.getRole() + ":\n" + firstChoice.getContent() + "\
 ```
 
 Example output:
-
 ```
 ASSISTANT:
 Here is a simple Java program that prints "Hello World!" to the console:
@@ -143,6 +138,80 @@ public class HelloWorld {
     }
 }
 '''
+```
+
+## Streaming Chat Completions
+
+The following example show how to use a streaming chat completion. The API will return chunks of the message as it is
+being generated instead of waiting for the whole message to be generated.
+
+```java
+// You can also put the API key in an environment variable called MISTRAL_API_KEY and remove the apiKey parameter given to the MistralClient constructor
+String apiKey = "API_KEY_HERE";
+
+// Initialize the client. This should ideally only be done once. The instance should be re-used for multiple requests
+MistralClient client = new MistralClient(apiKey);
+String model = "open-mistral-7b";
+List<Message> messages = new MessageListBuilder()
+        .system("You are a helpful programming assistant.")
+        .user("Write a java program that prints the first `n` numbers of the Fibonacci sequence.")
+        .build();
+ChatCompletionRequest request = ChatCompletionRequest.builder()
+        .model(model)
+        .messages(messages)
+        .stream(true)
+        .build();
+
+client.
+
+createChatCompletionStream(request, new ChatCompletionChunkCallback() {
+  @Override
+  public void onChunkReceived (MessageChunk chunk){
+    // This method receives a chunk of the message as it is being generated.
+    System.out.print(chunk.getChoices().get(0).getMessage().getContent());
+  }
+
+  @Override
+  public void onComplete () {
+    // This method is called when the generation is fully completed.
+    System.out.println("\n\n== Generation Done! ==");
+  }
+
+  @Override
+  public void onError (Exception e){
+    // This method is called when an error occurs. Generation will be stopped and the other methods will not be called
+    e.printStackTrace();
+  }
+});
+```
+
+Example output:
+
+```
+Here is a Java program that prints the first `n` numbers of the Fibonacci sequence:
+
+'''java
+public class Fibonacci {
+    public static void main(String[] args) {
+        int n = Integer.parseInt(args[0]); // Get the number of Fibonacci numbers to print from command line argument
+
+        int num1 = 0, num2 = 1;
+
+        System.out.print(num1 + " " + num2); // Print the first two numbers of the sequence
+
+        for (int i = 2; i < n; i++) {
+            int nextNumber = num1 + num2;
+            System.out.print(" " + nextNumber);
+            num1 = num2;
+            num2 = nextNumber;
+        }
+    }
+}
+'''
+
+To run the program, save it as `Fibonacci.java` and compile it using the command `javac Fibonacci.java`. To run the program and print the first `n` numbers of the Fibonacci sequence, provide the number as a command line argument, e.g. `java Fibonacci 10` to print the first 10 numbers.
+
+== Generation Done! ==
 ```
 
 ## Embeddings

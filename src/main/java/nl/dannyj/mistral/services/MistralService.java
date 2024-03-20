@@ -20,17 +20,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.*;
 import lombok.NonNull;
 import nl.dannyj.mistral.MistralClient;
+import nl.dannyj.mistral.exceptions.InvalidJsonException;
+import nl.dannyj.mistral.exceptions.UnexpectedResponseEndException;
 import nl.dannyj.mistral.exceptions.UnexpectedResponseException;
 import nl.dannyj.mistral.models.Request;
 import nl.dannyj.mistral.models.Response;
-import nl.dannyj.mistral.models.completion.ChatCompletionRequest;
-import nl.dannyj.mistral.models.completion.ChatCompletionResponse;
-import nl.dannyj.mistral.models.completion.Message;
-import nl.dannyj.mistral.models.completion.MessageRole;
+import nl.dannyj.mistral.models.completion.*;
 import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
 import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
 import nl.dannyj.mistral.models.model.ListModelsResponse;
+import nl.dannyj.mistral.net.ChatCompletionChunkCallback;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
@@ -70,6 +76,10 @@ public class MistralService {
      * @throws IllegalArgumentException     if the first message role is not 'user' or 'system'
      */
     public ChatCompletionResponse createChatCompletion(@NonNull ChatCompletionRequest request) {
+        if (request.getStream() != null && request.getStream()) {
+            throw new IllegalArgumentException("The stream parameter is not supported for this method. Use createChatCompletionStream instead.");
+        }
+
         Message firstMessage = request.getMessages().get(0);
         MessageRole role = firstMessage.getRole();
 
@@ -77,7 +87,8 @@ public class MistralService {
             throw new IllegalArgumentException("The first message role should be either 'user' or 'system'");
         }
 
-        return validateRequestAndPost("/chat/completions", request, ChatCompletionResponse.class);
+        validateRequest(request);
+        return postRequest("/chat/completions", request, ChatCompletionResponse.class);
     }
 
     /**
@@ -89,6 +100,46 @@ public class MistralService {
      */
     public CompletableFuture<ChatCompletionResponse> createChatCompletionAsync(@NonNull ChatCompletionRequest request) {
         return CompletableFuture.supplyAsync(() -> createChatCompletion(request));
+    }
+
+    public void createChatCompletionStream(@NonNull ChatCompletionRequest request, @NonNull ChatCompletionChunkCallback callback) {
+        if (request.getStream() == null || !request.getStream()) {
+            throw new IllegalArgumentException("The stream parameter is required and should be set to true for this method.");
+        }
+
+        validateRequest(request);
+
+        try {
+            String requestJson = client.getObjectMapper().writeValueAsString(request);
+
+            httpService.streamPost("/chat/completions", requestJson, new Callback() {
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull okhttp3.Response response) {
+                    if (!response.isSuccessful()) {
+                        callback.onError(new UnexpectedResponseException("Received unexpected response code " + response.code() + ": " + response));
+                        return;
+                    }
+
+                    try (ResponseBody responseBody = response.body()) {
+                        if (responseBody == null) {
+                            callback.onError(new UnexpectedResponseException("Received null response from the API: " + response));
+                            return;
+                        }
+
+                        handleResponseBody(responseBody, callback);
+                    } catch (IOException e) {
+                        callback.onError(new UnexpectedResponseException(e));
+                    }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    callback.onError(e);
+                }
+            });
+        } catch (JsonProcessingException e) {
+            throw new InvalidJsonException("Failed to convert request to JSON", e);
+        }
     }
 
     /**
@@ -129,7 +180,8 @@ public class MistralService {
      * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
      */
     public EmbeddingResponse createEmbedding(@NonNull EmbeddingRequest request) {
-        return validateRequestAndPost("/embeddings", request, EmbeddingResponse.class);
+        validateRequest(request);
+        return postRequest("/embeddings", request, EmbeddingResponse.class);
     }
 
     /**
@@ -145,31 +197,45 @@ public class MistralService {
     }
 
     /**
-     * This method is used to validate the request and post it to the specified endpoint.
-     * It first validates the request using the validator. If there are any constraint violations, it throws a ConstraintViolationException.
-     * If the request is valid, it converts the request to JSON and sends a POST request to the specified endpoint.
-     * The response from the endpoint is then converted back to the specified response type and returned.
+     * This method is used to validate the request using the provided validator.
+     * If there are any constraint violations, it throws a ConstraintViolationException.
      *
-     * @param <T>          The type of the request. It must extend Request.
-     * @param <U>          The type of the response. It must extend Response.
-     * @param endpoint     The endpoint to which the request should be posted.
-     * @param request      The request to be posted.
-     * @param responseType The class of the response type.
-     * @return The response from the endpoint, converted to the specified response type.
+     * @param <T>     The type of the request. It must extend Request.
+     * @param request The request to be validated.
      * @throws ConstraintViolationException if the request does not pass validation
-     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
      */
-    private <T extends Request, U extends Response> U validateRequestAndPost(String endpoint, T request, Class<U> responseType) {
+    private <T extends Request> void validateRequest(T request) {
         Set<ConstraintViolation<T>> violations = validator.validate(request);
 
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
+    }
 
+
+    /**
+     * This method is used to post a request to the specified endpoint and handle the response.
+     * It converts the request to JSON, sends a POST request, and converts the response to the specified type.
+     *
+     * @param <T>          The type of the request. It must extend Request.
+     * @param <U>          The type of the response. It must extend Response.
+     * @param endpoint     The endpoint to which the request should be posted.
+     * @param request      The validated request to be posted.
+     * @param responseType The class of the response type.
+     * @return The response from the endpoint, converted to the specified response type.
+     * @throws UnexpectedResponseException if an unexpected response is received from the Mistral AI API
+     */
+    private <T extends Request, U extends Response> U postRequest(String endpoint, T request, Class<U> responseType) {
         String response = null;
+        String requestJson = null;
 
         try {
-            String requestJson = client.getObjectMapper().writeValueAsString(request);
+            requestJson = client.getObjectMapper().writeValueAsString(request);
+        } catch (JsonProcessingException e) {
+            throw new InvalidJsonException("Failed to convert request to JSON", e);
+        }
+
+        try {
             response = httpService.post(endpoint, requestJson);
 
             return client.getObjectMapper().readValue(response, responseType);
@@ -177,5 +243,31 @@ public class MistralService {
             throw new UnexpectedResponseException("Received unexpected response from the Mistral.ai API (mistral-java-client might need to be updated): " + response, e);
         }
     }
-}
 
+    private void handleResponseBody(@NotNull ResponseBody responseBody, ChatCompletionChunkCallback callback) throws IOException {
+        BufferedReader reader = new BufferedReader(responseBody.charStream());
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            if (line.startsWith("data: ")) {
+                String chunk = line.substring(6);
+
+                if ("[DONE]".equals(chunk)) {
+                    callback.onComplete();
+                    return;
+                }
+
+                try {
+                    MessageChunk messageChunk = client.getObjectMapper().readValue(chunk, MessageChunk.class);
+
+                    callback.onChunkReceived(messageChunk);
+                } catch (JsonProcessingException e) {
+                    callback.onError(new UnexpectedResponseException("Received unexpected response from the Mistral.ai API (mistral-java-client might need to be updated): " + chunk, e));
+                    return;
+                }
+            }
+        }
+
+        callback.onError(new UnexpectedResponseEndException("Received unexpected end of the streaming response: Expected [DONE] but received nothing"));
+    }
+}
