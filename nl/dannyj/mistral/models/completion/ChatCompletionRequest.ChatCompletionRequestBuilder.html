@@ -45,13 +45,13 @@ loadScripts(document, 'script');</script>
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
 <li>Field&nbsp;|&nbsp;</li>
-<li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
+<li>Constr&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
 </div>
@@ -84,19 +84,6 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
-<!-- ======== CONSTRUCTOR SUMMARY ======== -->
-<li>
-<section class="constructor-summary" id="constructor-summary">
-<h2>Constructor Summary</h2>
-<div class="caption"><span>Constructors</span></div>
-<div class="summary-table two-column-summary">
-<div class="table-header col-first">Constructor</div>
-<div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">ChatCompletionRequestBuilder</a>()</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
-</div>
-</section>
-</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
@@ -108,35 +95,67 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxTokens(java.lang.Integer)" class="member-name-link">maxTokens</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxTokens)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The maximum number of tokens to generate in the completion.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#responseFormat(nl.dannyj.mistral.models.completion.ResponseFormats)" class="member-name-link">responseFormat</a><wbr>(<a href="ResponseFormats.html" title="enum class in nl.dannyj.mistral.models.completion">ResponseFormats</a>&nbsp;responseFormat)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#messages(java.util.List)" class="member-name-link">messages</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Message.html" title="class in nl.dannyj.mistral.models.completion">Message</a>&gt;&nbsp;messages)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The prompt(s) to generate completions for, encoded as a list of dict with role and content.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#model(java.lang.String)" class="member-name-link">model</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;model)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">ID of the model to use.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#randomSeed(java.lang.Long)" class="member-name-link">randomSeed</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;randomSeed)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">The seed to use for random sampling.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#responseFormat(nl.dannyj.mistral.models.completion.ResponseFormats)" class="member-name-link">responseFormat</a><wbr>(<a href="ResponseFormats.html" title="enum class in nl.dannyj.mistral.models.completion">ResponseFormats</a>&nbsp;responseFormat)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#safePrompt(boolean)" class="member-name-link">safePrompt</a><wbr>(boolean&nbsp;safePrompt)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Whether to inject a safety prompt before all conversations.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stream(java.lang.Boolean)" class="member-name-link">stream</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;stream)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Whether to stream back partial progress.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#temperature(java.lang.Double)" class="member-name-link">temperature</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;temperature)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">What sampling temperature to use, between 0.0 and 1.0.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#topP(java.lang.Double)" class="member-name-link">topP</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;topP)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Nucleus sampling, where the model considers the results of the tokens with top_p probability mass.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
 </section>
 <section class="details">
 <ul class="details-list">
-<!-- ========= CONSTRUCTOR DETAIL ======== -->
-<li>
-<section class="constructor-details" id="constructor-detail">
-<h2>Constructor Details</h2>
-<ul class="member-list">
-<li>
-<section class="detail" id="&lt;init&gt;()">
-<h3>ChatCompletionRequestBuilder</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ChatCompletionRequestBuilder</span>()</div>
-</section>
-</li>
-</ul>
-</section>
-</li>
 <!-- ============ METHOD DETAIL ========== -->
 <li>
 <section class="method-details" id="method-detail">
@@ -146,6 +165,135 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="responseFormat(nl.dannyj.mistral.models.completion.ResponseFormats)">
 <h3>responseFormat</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">responseFormat</span><wbr><span class="parameters">(<a href="ResponseFormats.html" title="enum class in nl.dannyj.mistral.models.completion">ResponseFormats</a>&nbsp;responseFormat)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="model(java.lang.String)">
+<h3>model</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">model</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;model)</span></div>
+<div class="block">ID of the model to use. You can use the List Available Models API to see all of your available models.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>model</code> - The model's ID. Can't be null or empty.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="messages(java.util.List)">
+<h3>messages</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">messages</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Message.html" title="class in nl.dannyj.mistral.models.completion">Message</a>&gt;&nbsp;messages)</span></div>
+<div class="block">The prompt(s) to generate completions for, encoded as a list of dict with role and content.
+ Must contain at least one message and the first prompt role should be user or system.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>messages</code> - The messages/conversation to generate completions for. Can't be null or empty.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="temperature(java.lang.Double)">
+<h3>temperature</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">temperature</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;temperature)</span></div>
+<div class="block">What sampling temperature to use, between 0.0 and 1.0. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+ We generally recommend altering this or top_p but not both.
+ Defaults to 0.7.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>temperature</code> - The sampling temperature to use. Has to be between 0.0 and 1.0.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="topP(java.lang.Double)">
+<h3>topP</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">topP</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&nbsp;topP)</span></div>
+<div class="block">Nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+ We generally recommend altering this or temperature but not both.
+ Defaults to 1.0 (i.e., no nucleus sampling).</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>topP</code> - the top p value to use. Has to be between 0.0 and 1.0.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="maxTokens(java.lang.Integer)">
+<h3>maxTokens</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">maxTokens</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxTokens)</span></div>
+<div class="block">The maximum number of tokens to generate in the completion.
+ The token count of your prompt plus max_tokens cannot exceed the model's context length.
+ Defaults to 32000, which is the maximum value for all currently available models.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>maxTokens</code> - The maximum number of tokens to generate in the completion. Has to be positive or zero.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="stream(java.lang.Boolean)">
+<h3>stream</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">stream</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;stream)</span></div>
+<div class="block">Whether to stream back partial progress. When set to true, the <a href="../../MistralClient.html#createChatCompletionStream(nl.dannyj.mistral.models.completion.ChatCompletionRequest,nl.dannyj.mistral.net.ChatCompletionChunkCallback)"><code>MistralClient.createChatCompletionStream(ChatCompletionRequest, ChatCompletionChunkCallback)</code></a> method has to be used.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stream</code> - Whether to stream back partial progress. Setting to null will default to false.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="safePrompt(boolean)">
+<h3>safePrompt</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">safePrompt</span><wbr><span class="parameters">(boolean&nbsp;safePrompt)</span></div>
+<div class="block">Whether to inject a safety prompt before all conversations.
+ Toggling the safe prompt will prepend your messages with the following system prompt:
+ Always assist with care, respect, and truth. Respond with utmost utility yet securely. Avoid harmful, unethical, prejudiced, or negative content. Ensure replies promote fairness and positivity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>safePrompt</code> - Whether to inject a safety prompt before all conversations.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="randomSeed(java.lang.Long)">
+<h3>randomSeed</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.ChatCompletionRequestBuilder.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest.ChatCompletionRequestBuilder</a></span>&nbsp;<span class="element-name">randomSeed</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;randomSeed)</span></div>
+<div class="block">The seed to use for random sampling. If set, different calls will generate deterministic results.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>randomSeed</code> - The seed to use for random sampling. Set to null for a random seed.</dd>
+<dt>Returns:</dt>
+<dd><code>this</code>.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="build()">
+<h3>build</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ChatCompletionRequest.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest</a></span>&nbsp;<span class="element-name">build</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="toString()">
+<h3>toString</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+</dl>
 </section>
 </li>
 </ul>

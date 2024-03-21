@@ -152,6 +152,18 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">This method is used to create an embedding using the Mistral AI API.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getApiKey()" class="member-name-link">getApiKey</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>okhttp3.OkHttpClient</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHttpClient()" class="member-name-link">getHttpClient</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="services/MistralService.html" title="class in nl.dannyj.mistral.services">MistralService</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMistralService()" class="member-name-link">getMistralService</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>com.fasterxml.jackson.databind.ObjectMapper</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getObjectMapper()" class="member-name-link">getObjectMapper</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="models/model/ListModelsResponse.html" title="class in nl.dannyj.mistral.models.model">ListModelsResponse</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#listModels()" class="member-name-link">listModels</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -162,6 +174,18 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Lists all models available according to the Mistral AI API.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setApiKey(java.lang.String)" class="member-name-link">setApiKey</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;apiKey)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHttpClient(okhttp3.OkHttpClient)" class="member-name-link">setHttpClient</a><wbr>(okhttp3.OkHttpClient&nbsp;httpClient)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMistralService(nl.dannyj.mistral.services.MistralService)" class="member-name-link">setMistralService</a><wbr>(<a href="services/MistralService.html" title="class in nl.dannyj.mistral.services">MistralService</a>&nbsp;mistralService)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setObjectMapper(com.fasterxml.jackson.databind.ObjectMapper)" class="member-name-link">setObjectMapper</a><wbr>(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -365,6 +389,54 @@ loadScripts(document, 'script');</script>
  @NonNull <a href="models/completion/ChatCompletionRequest.html" title="class in nl.dannyj.mistral.models.completion">ChatCompletionRequest</a>&nbsp;request,
  @NonNull
  @NonNull <a href="net/ChatCompletionChunkCallback.html" title="interface in nl.dannyj.mistral.net">ChatCompletionChunkCallback</a>&nbsp;callback)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setApiKey(java.lang.String)">
+<h3>setApiKey</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setApiKey</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;apiKey)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setHttpClient(okhttp3.OkHttpClient)">
+<h3>setHttpClient</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setHttpClient</span><wbr><span class="parameters">(okhttp3.OkHttpClient&nbsp;httpClient)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setObjectMapper(com.fasterxml.jackson.databind.ObjectMapper)">
+<h3>setObjectMapper</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setObjectMapper</span><wbr><span class="parameters">(com.fasterxml.jackson.databind.ObjectMapper&nbsp;objectMapper)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="setMistralService(nl.dannyj.mistral.services.MistralService)">
+<h3>setMistralService</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMistralService</span><wbr><span class="parameters">(<a href="services/MistralService.html" title="class in nl.dannyj.mistral.services">MistralService</a>&nbsp;mistralService)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getApiKey()">
+<h3>getApiKey</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getApiKey</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getHttpClient()">
+<h3>getHttpClient</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">okhttp3.OkHttpClient</span>&nbsp;<span class="element-name">getHttpClient</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getObjectMapper()">
+<h3>getObjectMapper</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">com.fasterxml.jackson.databind.ObjectMapper</span>&nbsp;<span class="element-name">getObjectMapper</span>()</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getMistralService()">
+<h3>getMistralService</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="services/MistralService.html" title="class in nl.dannyj.mistral.services">MistralService</a></span>&nbsp;<span class="element-name">getMistralService</span>()</div>
 </section>
 </li>
 </ul>
