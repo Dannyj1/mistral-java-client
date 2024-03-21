@@ -17,7 +17,7 @@
 package nl.dannyj.mistral.models.completion;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.dannyj.mistral.models.usage.Usage;
 
@@ -27,38 +27,50 @@ import java.util.List;
  * A chunk of a message in a conversation.
  * Returned when using streaming chat completions.
  */
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageChunk {
 
     /**
      * The ID of the message chunk.
+     *
+     * @return the id of the message chunk
      */
     private String id;
 
     /**
      * Always chat.completion.chunk
+     *
+     * @return the object type of the message chunk
      */
     private String object;
 
     /**
      * The time the message chunk was created.
+     *
+     * @return the time the message chunk was created in seconds since the epoch
      */
     private long created;
 
     /**
      * The model used to generate the completions.
+     *
+     * @return the id of the model used to generate the completions
      */
     private String model;
 
     /**
-     * The generated completions.
+     * The generated delta completions.
+     *
+     * @return the generated delta completions
      */
     private List<DeltaChoice> choices;
 
     /**
      * The tokens used to generate the completion.
+     *
+     * @return the tokens used to generate the completion
      */
     private Usage usage;
 }

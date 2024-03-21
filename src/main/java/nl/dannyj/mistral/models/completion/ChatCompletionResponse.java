@@ -37,6 +37,8 @@ public class ChatCompletionResponse implements Response {
 
     /**
      * Unique identifier for this response.
+     *
+     * @return the id of the response.
      */
     private String id;
 
@@ -47,21 +49,29 @@ public class ChatCompletionResponse implements Response {
 
     /**
      * The time the chat completion was created in seconds since the epoch.
+     *
+     * @return the time the chat completion was created.
      */
     private long created;
 
     /**
      * The model used to generate the completion.
+     *
+     * @return the model used to generate the completion.
      */
     private String model;
 
     /**
      * The generated completions.
+     *
+     * @return the generated completions.
      */
     private List<Choice> choices;
 
     /**
      * The tokens used to generate the completion.
+     *
+     * @return the amount of tokens used to generate the completion.
      */
     private Usage usage;
 

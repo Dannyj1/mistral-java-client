@@ -1,11 +1,12 @@
 plugins {
-    id 'java'
-    id 'maven-publish'
+    id "java"
+    id "maven-publish"
     id "org.sonarqube" version "4.4.1.3373"
+    id "io.freefair.lombok" version "8.6"
 }
 
-group = 'nl.dannyj'
-version = '1.0.0'
+group = "nl.dannyj"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -13,23 +14,18 @@ repositories {
 
 dependencies {
     implementation "com.squareup.okhttp3:okhttp:4.12.0"
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.16.1'
-    implementation 'jakarta.validation:jakarta.validation-api:3.1.0-M1'
-    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
-    implementation 'org.glassfish.expressly:expressly:5.0.0'
-    implementation 'com.squareup.okio:okio:3.8.0'
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.16.1"
+    implementation "jakarta.validation:jakarta.validation-api:3.1.0-M1"
+    implementation "org.hibernate.validator:hibernate-validator:8.0.1.Final"
+    implementation "org.glassfish.expressly:expressly:5.0.0"
+    implementation "com.squareup.okio:okio:3.8.0"
 
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testCompileOnly 'org.projectlombok:lombok:1.18.30'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testImplementation platform("org.junit:junit-bom:5.9.1")
+    testImplementation "org.junit.jupiter:junit-jupiter"
 }
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = "17"
 }
 
 publishing {

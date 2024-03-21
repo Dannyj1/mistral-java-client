@@ -36,6 +36,8 @@ public class Model {
 
     /**
      * The ID of the model. Should be used to refer to the model in other API calls.
+     *
+     * @return The ID of the model.
      */
     private String id;
 
@@ -43,11 +45,15 @@ public class Model {
 
     /**
      * Creation time of the model in seconds since the Unix epoch.
+     *
+     * @return The creation time of the model in seconds since the Unix epoch.
      */
     private long created;
 
     /**
      * Owner of the model.
+     *
+     * @return The owner of the model.
      */
     @JsonProperty("owned_by")
     private String ownedBy;
