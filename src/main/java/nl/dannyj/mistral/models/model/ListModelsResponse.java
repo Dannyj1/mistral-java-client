@@ -36,11 +36,15 @@ public class ListModelsResponse implements Response {
 
     /**
      * Undocumented, seems to be the type of the response.
+     *
+     * @return The type of the response.
      */
     private String object;
 
     /**
      * The list of available models.
+     *
+     * @return The list of available models.
      */
     @JsonProperty("data")
     private List<Model> models;

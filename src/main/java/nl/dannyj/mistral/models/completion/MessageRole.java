@@ -34,7 +34,9 @@ public enum MessageRole {
     }
 
     /**
-     * @return Lowercase string representation of the role. To be used when interacting with the API.
+     * Returns a lowercase string representation of the role. To be used when interacting with the API.
+     *
+     * @return A lowercase string representation of the role.
      */
     @JsonValue
     public String getRole() {

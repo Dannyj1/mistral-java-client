@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * A message in a conversation.
+ * A message in a conversation. A message contains the role of the message, and the content of the message.
  */
 @Data
 @AllArgsConstructor
@@ -35,12 +35,18 @@ public class Message {
     /**
      * The role of the message.
      * Currently, there are 3 roles: user, assistant, and system.
+     *
+     * @param role The role of the message.
+     * @return The role of the message.
      */
     @NotNull
     private MessageRole role;
 
     /**
      * The content of the message.
+     *
+     * @param content The content of the message.
+     * @return The content of the message.
      */
     @NotNull
     private String content;

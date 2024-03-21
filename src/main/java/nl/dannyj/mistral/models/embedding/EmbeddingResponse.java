@@ -37,26 +37,36 @@ public class EmbeddingResponse implements Response {
 
     /**
      * Unique identifier for this response.
+     *
+     * @return the id of the response
      */
     private String id;
 
     /**
      * Undocumented, seems to be the type of the response.
+     *
+     * @return the object type
      */
     private String object;
 
     /**
      * The embeddings that were created for the list of input strings.
+     *
+     * @return a list of float embeddings
      */
     private List<FloatEmbedding> data;
 
     /**
      * The model used to create the embeddings.
+     *
+     * @return the ID of the model used to generate the embeddings
      */
     private String model;
 
     /**
      * The token usage of the request.
+     *
+     * @return the usage of the request
      */
     private Usage usage;
 
