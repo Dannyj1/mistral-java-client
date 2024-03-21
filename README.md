@@ -1,3 +1,5 @@
+[![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://dannyj1.github.io/mistral-java-client/)
+
 # About
 
 **Mistral-java-client** is a Java client for the [Mistral AI](https://mistral.ai/) API. It allows you to easily interact
@@ -61,6 +63,13 @@ dependencies {
     <version>1.0.0</version>
 </dependency>
 ```
+
+# Documentation
+
+You can find the javadocs for this library here: https://dannyj1.github.io/mistral-java-client/
+
+The Mistral documentation also contains a lot of useful information about their models and what certain parameters
+do: https://docs.mistral.ai/
 
 # Usage
 
