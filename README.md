@@ -166,9 +166,7 @@ ChatCompletionRequest request = ChatCompletionRequest.builder()
         .stream(true)
         .build();
 
-client.
-
-createChatCompletionStream(request, new ChatCompletionChunkCallback() {
+client.createChatCompletionStream(request, new ChatCompletionChunkCallback() {
   @Override
   public void onChunkReceived (MessageChunk chunk){
     // This method receives a chunk of the message as it is being generated.
@@ -227,8 +225,8 @@ String apiKey = "API_KEY_HERE";
 // Initialize the client. This should ideally only be done once. The instance should be re-used for multiple requests
 MistralClient client = new MistralClient(apiKey);
 List<String> exampleTexts = List.of(
-        "This is a test sentence.",
-        "This is another test sentence."
+  "This is a test sentence.",
+  "This is another test sentence."
 );
 
 EmbeddingRequest embeddingRequest = EmbeddingRequest.builder()
