@@ -33,7 +33,9 @@ public enum ResponseFormats {
     }
 
     /**
-     * @return Lowercase string representation of the format, as expected by the API.
+     * Returns a lowercase string representation of the format. To be used when interacting with the API.
+     *
+     * @return Lowercase string representation of the format.
      */
     @JsonValue
     public String getFormat() {

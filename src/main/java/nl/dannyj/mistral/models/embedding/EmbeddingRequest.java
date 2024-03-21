@@ -40,6 +40,9 @@ public class EmbeddingRequest implements Request {
 
     /**
      * The ID of the model to use for this request.
+     *
+     * @param model The model ID.
+     * @return The model ID.
      */
     @NotNull
     @NotBlank
@@ -47,13 +50,19 @@ public class EmbeddingRequest implements Request {
 
     /**
      * The list of strings to embed.
+     *
+     * @param input The list of strings to embed. Each entry will be embedded separately.
+     * @return The list of strings to embed.
      */
     @NotNull
     @Size(min = 1)
     private List<String> input;
 
     /**
-     * The format of the output data. The valid values for this are not documented, so assume only "float" is valid for now.
+     * The format of the output data.
+     *
+     * @param encodingFormat The format of the output data. Can only be "float" is valid for now.
+     * @return The format of the output data.
      */
     @JsonProperty("encoding_format")
     @Builder.Default

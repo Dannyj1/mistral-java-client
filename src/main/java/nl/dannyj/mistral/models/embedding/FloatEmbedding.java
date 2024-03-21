@@ -31,16 +31,22 @@ public class FloatEmbedding {
 
     /**
      * Undocumented, seems to be the type of the response.
+     *
+     * @return the type of the response
      */
     private String object;
 
     /**
      * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     *
+     * @return the float embeddings for the input string
      */
     private List<Float> embedding;
 
     /**
      * The index of the input string in the input list.
+     *
+     * @return the index of the input string in the input list
      */
     private int index;
 
