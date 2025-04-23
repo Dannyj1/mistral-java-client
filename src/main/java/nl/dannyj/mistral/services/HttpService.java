@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Danny Jelsma
+ * Copyright 2024-2025 Danny Jelsma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,13 @@ package nl.dannyj.mistral.services;
 import lombok.NonNull;
 import nl.dannyj.mistral.MistralClient;
 import nl.dannyj.mistral.exceptions.MistralAPIException;
-import okhttp3.*;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import java.io.IOException;
 

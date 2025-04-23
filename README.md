@@ -15,10 +15,6 @@ Currently supports all chat completion models. At the time of writing these are:
 
 New models or models not listed here may be already supported without any updates to the library.
 
-**NOTE:** This library is currently in **alpha**. It is currently NOT possible to using streaming in message
-completions or function calls. This will be added in the future. The currently supported APIs should be stable
-however.
-
 # Supported APIs
 
 Mistral-java-client is built against version 0.0.1 of the [Mistral AI API](https://docs.mistral.ai/api/).
@@ -43,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Dannyj1:mistral-java-client:1.0.0'
+    implementation 'com.github.Dannyj1:mistral-java-client:1.1.0'
 }
 ```
 
@@ -60,7 +56,7 @@ dependencies {
 <dependency>
     <groupId>com.github.Dannyj1</groupId>
     <artifactId>mistral-java-client</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
@@ -88,7 +84,7 @@ MistralClient client = new MistralClient(apiKey);
 // Get a list of available models
 List<Model> models = client.listModels().getModels();
 
-// Loop through all available models and print their ID. The id can be used to specify the model when creating chat completions
+// Loop through all available models and print their ID. The ID can be used to specify the model when creating chat completions
 for (Model model :models) {
   System.out.println(model.getId());
 }
@@ -155,7 +151,7 @@ public class HelloWorld {
 
 ## Streaming Chat Completions
 
-The following example show how to use a streaming chat completion. The API will return chunks of the message as it is
+The following example shows how to use a streaming chat completion. The API will return chunks of the message as it is
 being generated instead of waiting for the whole message to be generated.
 
 ```java
@@ -264,7 +260,7 @@ Example output:
 
 # License
 
-Copyright 2024 Danny Jelsma
+Copyright 2024-2025 Danny Jelsma
 
 Mistral-java-client is licensed under the Apache License, Version 2.0 (the "License"). See the [LICENSE](LICENSE) file
 for the full license text or obtain a copy of the license at https://www.apache.org/licenses/LICENSE-2.0.

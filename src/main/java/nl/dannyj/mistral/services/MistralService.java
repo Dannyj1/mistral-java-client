@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 Danny Jelsma
+ * Copyright 2024-2025 Danny Jelsma
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,11 @@
 package nl.dannyj.mistral.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import jakarta.validation.*;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import lombok.NonNull;
 import nl.dannyj.mistral.MistralClient;
 import nl.dannyj.mistral.exceptions.InvalidJsonException;
@@ -25,7 +29,11 @@ import nl.dannyj.mistral.exceptions.UnexpectedResponseEndException;
 import nl.dannyj.mistral.exceptions.UnexpectedResponseException;
 import nl.dannyj.mistral.models.Request;
 import nl.dannyj.mistral.models.Response;
-import nl.dannyj.mistral.models.completion.*;
+import nl.dannyj.mistral.models.completion.ChatCompletionRequest;
+import nl.dannyj.mistral.models.completion.ChatCompletionResponse;
+import nl.dannyj.mistral.models.completion.Message;
+import nl.dannyj.mistral.models.completion.MessageChunk;
+import nl.dannyj.mistral.models.completion.MessageRole;
 import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
 import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
 import nl.dannyj.mistral.models.model.ListModelsResponse;
