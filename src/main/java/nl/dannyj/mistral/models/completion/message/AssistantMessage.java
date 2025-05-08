@@ -20,10 +20,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import nl.dannyj.mistral.models.completion.content.ContentChunk;
 import nl.dannyj.mistral.models.completion.content.TextChunk;
@@ -69,7 +69,7 @@ public class AssistantMessage extends ChatMessage {
      *
      * @param textContent The text content.
      */
-    public AssistantMessage(@NotNull String textContent) {
+    public AssistantMessage(@NonNull String textContent) {
         this.content = Collections.singletonList(new TextChunk(textContent));
         this.toolCalls = null;
     }
@@ -79,7 +79,7 @@ public class AssistantMessage extends ChatMessage {
      *
      * @param toolCalls The list of tool calls. Cannot be null or empty.
      */
-    public AssistantMessage(@NotNull @NotEmpty List<ToolCall> toolCalls) {
+    public AssistantMessage(@NonNull @NotEmpty List<ToolCall> toolCalls) {
         this.content = null;
         this.toolCalls = toolCalls;
     }

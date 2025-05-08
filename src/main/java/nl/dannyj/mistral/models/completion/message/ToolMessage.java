@@ -19,10 +19,10 @@ package nl.dannyj.mistral.models.completion.message;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import nl.dannyj.mistral.models.completion.content.ContentChunk;
 import nl.dannyj.mistral.models.completion.content.TextChunk;
@@ -68,7 +68,7 @@ public class ToolMessage extends ChatMessage {
      * @param textContent The text content (result) of the tool call. Cannot be null.
      * @param toolCallId  The ID of the tool call this message responds to. Can be null.
      */
-    public ToolMessage(@NotNull String textContent, @Nullable String toolCallId) {
+    public ToolMessage(@NonNull String textContent, @Nullable String toolCallId) {
         this.content = Collections.singletonList(new TextChunk(textContent));
         this.toolCallId = toolCallId;
     }
@@ -79,7 +79,7 @@ public class ToolMessage extends ChatMessage {
      * @param contentChunks The list of content chunks representing the tool result. Cannot be null or empty.
      * @param toolCallId    The ID of the tool call this message responds to. Can be null.
      */
-    public ToolMessage(@NotNull @jakarta.validation.constraints.NotEmpty List<ContentChunk> contentChunks, @Nullable String toolCallId) {
+    public ToolMessage(@NonNull @jakarta.validation.constraints.NotEmpty List<ContentChunk> contentChunks, @Nullable String toolCallId) {
         this.content = contentChunks;
         this.toolCallId = toolCallId;
     }

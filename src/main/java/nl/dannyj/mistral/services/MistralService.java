@@ -41,7 +41,6 @@ import nl.dannyj.mistral.net.ChatCompletionChunkCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.ResponseBody;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -122,7 +121,7 @@ public class MistralService {
 
             httpService.streamPost("/chat/completions", requestJson, new Callback() {
                 @Override
-                public void onResponse(@NotNull Call call, @NotNull okhttp3.Response response) {
+                public void onResponse(@NonNull Call call, @NonNull okhttp3.Response response) {
                     if (!response.isSuccessful()) {
                         callback.onError(new UnexpectedResponseException("Received unexpected response code " + response.code() + ": " + response));
                         return;
@@ -141,7 +140,7 @@ public class MistralService {
                 }
 
                 @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     callback.onError(e);
                 }
             });
@@ -252,7 +251,7 @@ public class MistralService {
         }
     }
 
-    private void handleResponseBody(@NotNull ResponseBody responseBody, ChatCompletionChunkCallback callback) throws IOException {
+    private void handleResponseBody(@NonNull ResponseBody responseBody, ChatCompletionChunkCallback callback) throws IOException {
         BufferedReader reader = new BufferedReader(responseBody.charStream());
         String line;
 
