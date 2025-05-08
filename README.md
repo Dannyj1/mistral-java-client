@@ -399,6 +399,8 @@ Example output:
 
 # Roadmap
 
+- [ ] Make multi-modal usage more convenient (through builders, etc.)
+- [ ] Make JSON schemas for function calling more developer-friendly
 - [ ] Add support for all missing features (e.g. OCR)
 - [ ] Handle rate limits
 - [ ] Unit tests
