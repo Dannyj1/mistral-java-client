@@ -31,9 +31,9 @@ import nl.dannyj.mistral.models.Request;
 import nl.dannyj.mistral.models.Response;
 import nl.dannyj.mistral.models.completion.ChatCompletionRequest;
 import nl.dannyj.mistral.models.completion.ChatCompletionResponse;
-import nl.dannyj.mistral.models.completion.Message;
-import nl.dannyj.mistral.models.completion.MessageChunk;
-import nl.dannyj.mistral.models.completion.MessageRole;
+import nl.dannyj.mistral.models.completion.message.ChatMessage;
+import nl.dannyj.mistral.models.completion.message.MessageChunk;
+import nl.dannyj.mistral.models.completion.message.MessageRole;
 import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
 import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
 import nl.dannyj.mistral.models.model.ListModelsResponse;
@@ -88,7 +88,7 @@ public class MistralService {
             throw new IllegalArgumentException("The stream parameter is not supported for this method. Use createChatCompletionStream instead.");
         }
 
-        Message firstMessage = request.getMessages().get(0);
+        ChatMessage firstMessage = request.getMessages().get(0);
         MessageRole role = firstMessage.getRole();
 
         if (firstMessage.getRole() == null || (!role.equals(MessageRole.USER) && !role.equals(MessageRole.SYSTEM))) {
@@ -179,7 +179,7 @@ public class MistralService {
 
     /**
      * This method is used to create an embedding using the Mistral AI API.
-     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/capabilities/embeddings/">mistral documentation</a> for more details on embeddings.
      * This is a blocking method.
      *
      * @param request The request to create an embedding. See {@link EmbeddingRequest}.
@@ -194,7 +194,7 @@ public class MistralService {
 
     /**
      * This method is used to create an embedding using the Mistral AI API.
-     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/capabilities/embeddings/">mistral documentation</a> for more details on embeddings.
      * This is a non-blocking/asynchronous method.
      *
      * @param request The request to create an embedding. See {@link EmbeddingRequest}.

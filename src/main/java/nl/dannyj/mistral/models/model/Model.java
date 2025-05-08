@@ -22,11 +22,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
- * The Model class represents a model in the Mistral AI API.
- * Most of these fields are undocumented.
+ * Represents a model available in the Mistral AI API.
  */
 @Getter
 @NoArgsConstructor
@@ -41,6 +41,11 @@ public class Model {
      */
     private String id;
 
+    /**
+     * The object type, which is always "model".
+     *
+     * @return The object type.
+     */
     private String object;
 
     /**
@@ -51,16 +56,89 @@ public class Model {
     private long created;
 
     /**
-     * Owner of the model.
+     * Owner of the model. Defaults to "mistralai".
      *
      * @return The owner of the model.
      */
     @JsonProperty("owned_by")
     private String ownedBy;
 
+    /**
+     * The capabilities of the model.
+     *
+     * @return The model capabilities.
+     */
+    private ModelCapabilities capabilities;
+
+    /**
+     * The name of the model. Can be null.
+     *
+     * @return The name of the model.
+     */
+    private String name;
+
+    /**
+     * The description of the model. Can be null.
+     *
+     * @return The description of the model.
+     */
+    private String description;
+
+    /**
+     * The maximum context length supported by the model. Defaults to 32768.
+     *
+     * @return The maximum context length.
+     */
+    @JsonProperty("max_context_length")
+    private Integer maxContextLength;
+
+    /**
+     * A list of aliases for the model. Defaults to an empty list.
+     *
+     * @return The list of aliases.
+     */
+    private List<String> aliases;
+
+    /**
+     * The deprecation date and time for the model. Can be null.
+     *
+     * @return The deprecation date and time.
+     */
+    private OffsetDateTime deprecation;
+
+    /**
+     * The default sampling temperature for the model. Can be null.
+     *
+     * @return The default model temperature.
+     */
+    @JsonProperty("default_model_temperature")
+    private Double defaultModelTemperature;
+
+    /**
+     * The type of the model, e.g., "base" or "fine-tuned".
+     *
+     * @return The type of the model.
+     */
+    private String type;
+
+    /**
+     * The ID of the fine-tuning job that created this model. Only present for fine-tuned models.
+     *
+     * @return The job ID.
+     */
+    private String job;
+
+    /**
+     * The root model ID from which this fine-tuned model was derived. Only present for fine-tuned models.
+     *
+     * @return The root model ID.
+     */
     private String root;
 
-    private String parent;
-
-    private List<ModelPermission> permission;
+    /**
+     * Indicates if the fine-tuned model is archived. Defaults to false. Only present for fine-tuned models.
+     *
+     * @return True if the model is archived, false otherwise.
+     */
+    private Boolean archived;
 }

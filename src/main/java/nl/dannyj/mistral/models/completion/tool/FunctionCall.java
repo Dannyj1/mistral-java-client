@@ -14,47 +14,37 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.embedding;
+package nl.dannyj.mistral.models.completion.tool;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nl.dannyj.mistral.models.Request;
-
-import java.util.List;
 
 /**
- * The EmbeddingRequest class represents a request to create embedding for a list of strings.
- * Most of the field descriptions are taken from the Mistral API documentation.
+ * Represents the function call requested by the model, including the function name and its arguments as a JSON string.
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class EmbeddingRequest implements Request {
+@AllArgsConstructor
+public class FunctionCall {
 
     /**
-     * The ID of the model to use for this request.
+     * The name of the function to call. Cannot be blank.
      *
-     * @param model The model ID.
-     * @return The model ID.
+     * @param name The function name.
+     * @return The function name.
      */
-    @NotNull
     @NotBlank
-    private String model;
+    private String name;
 
     /**
-     * The list of strings to embed.
+     * The arguments to call the function with, represented as a JSON string.
      *
-     * @param input The list of strings to embed. Each entry will be embedded separately.
-     * @return The list of strings to embed.
+     * @param arguments The function arguments as a JSON string.
+     * @return The function arguments JSON string.
      */
     @NotNull
-    @Size(min = 1)
-    private List<String> input;
-
+    private String arguments;
 }

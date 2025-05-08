@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.completion;
+package nl.dannyj.mistral.models.completion.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nl.dannyj.mistral.models.completion.DeltaChoice;
 import nl.dannyj.mistral.models.usage.Usage;
 
 import java.util.List;

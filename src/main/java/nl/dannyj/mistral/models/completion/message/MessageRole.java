@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.completion;
+package nl.dannyj.mistral.models.completion.message;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -25,7 +25,8 @@ public enum MessageRole {
 
     SYSTEM("system"),
     ASSISTANT("assistant"),
-    USER("user");
+    USER("user"),
+    TOOL("tool");
 
     private final String role;
 

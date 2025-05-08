@@ -14,40 +14,39 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.embedding;
+package nl.dannyj.mistral.models.completion.content;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import java.util.List;
-
-@Getter
-@AllArgsConstructor
+/**
+ * Represents a text part of the message content.
+ */
 @NoArgsConstructor
-@ToString
-public class FloatEmbedding {
+@AllArgsConstructor
+public class TextChunk implements ContentChunk {
 
     /**
-     * Undocumented, seems to be the type of the response.
+     * The actual text content of this chunk.
      *
-     * @return the type of the response
+     * @param text The text content.
+     * @return The text content.
      */
-    private String object;
+    @NotNull
+    @Getter
+    private String text;
 
     /**
-     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/capabilities/embeddings/">mistral documentation</a> for more details on embeddings.
+     * Gets the type identifier for this content chunk.
      *
-     * @return the float embeddings for the input string
+     * @return The type string "text".
      */
-    private List<Float> embedding;
-
-    /**
-     * The index of the input string in the input list.
-     *
-     * @return the index of the input string in the input list
-     */
-    private int index;
-
+    @Override
+    @JsonIgnore
+    public String getType() {
+        return "text";
+    }
 }
