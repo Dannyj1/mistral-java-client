@@ -1,27 +1,26 @@
 # Migration Guide: Updating Message Handling
 
 This guide outlines the necessary changes to migrate your code from the previous message handling structure (using the
-`nl.dannyj.mistral.models.completion.Message` class) to the new structure introduced to support multi-modal content and
-tool calls, based on the abstract `nl.dannyj.mistral.models.completion.ChatMessage` class.
+`Message` class) to the new structure introduced to support multi-modal content and
+tool calls, based on the abstract `ChatMessage` class.
 
 ## Core Changes
 
-1. **`Message` Class Removed:** The old `nl.dannyj.mistral.models.completion.Message` class has been removed.
-2. **`ChatMessage` Hierarchy:** A new abstract base class `nl.dannyj.mistral.models.completion.ChatMessage` has been
+1. **Message Class Removed:** The old `Message` class has been removed.
+2. **ChatMessage Hierarchy:** A new abstract base class `ChatMessage` has been
    introduced. Specific message types now extend this class:
-    * `nl.dannyj.mistral.models.completion.message.SystemMessage`
-    * `nl.dannyj.mistral.models.completion.message.UserMessage`
-    * `nl.dannyj.mistral.models.completion.message.AssistantMessage`
-    * `nl.dannyj.mistral.models.completion.message.ToolMessage`
+    - `SystemMessage`
+    - `UserMessage`
+    - `AssistantMessage`
+    - `ToolMessage`
 3. **Multi-Modal Content:** Messages (primarily `UserMessage`, `AssistantMessage`, `ToolMessage`) now use a
    `List<ContentChunk>` for their `content` field to support text, images, etc. The
-   `nl.dannyj.mistral.models.completion.content.ContentChunk` interface has implementations like `TextChunk`,
+   `ContentChunk` interface has implementations like `TextChunk`,
    `ImageURLChunk`, etc.
-    * Convenience constructors/methods are provided for creating messages with simple text content.
-4. **Tool Calls:** `AssistantMessage` now includes a `List<ToolCall> toolCalls` field, and `ToolMessage` includes
-   `toolCallId` and `name` fields to support function calling/tools.
+    - `getTextContent()` helper methods were introduced to prevent having to loop over `ContentChunk`s to find `TextChunk`s
+4. **Tool Calls:** `AssistantMessage` now includes a `List<ToolCall> toolCalls` field, and a `ToolMessage` message type was introduced to support function calling/tools.
 5. **Streaming Deltas:** The `DeltaChoice` class (used in streaming responses via `MessageChunk`) now contains a
-   `nl.dannyj.mistral.models.completion.message.DeltaMessage` object (accessible via `getDelta()`). This `DeltaMessage`
+   `DeltaMessage` object (accessible via `getDelta()`). This `DeltaMessage`
    object, in turn, holds the partial delta fields: `role`, `content` (as `List<ContentChunk>`), and `toolCalls`.
 
 ## Migration Steps
@@ -108,9 +107,7 @@ an `AssistantMessage`.
 ChatCompletionResponse response = client.createChatCompletion(request);
 Message responseMsg = response.getChoices().get(0).getMessage();
 String content = responseMsg.getContent();
-System.out.
-
-println(content);
+System.out.println(content);
 ```
 
 **After:**
@@ -122,36 +119,24 @@ import nl.dannyj.mistral.models.completion.content.TextChunk;
 
 // ...
 ChatCompletionResponse response = client.createChatCompletion(request);
-        AssistantMessage responseMsg = response.getChoices().get(0).getMessage();
+AssistantMessage responseMsg = response.getChoices().get(0).getMessage();
 
-        // Extract text content (handle potential multi-modal content)
-        String textContent = "";
-if(responseMsg.
-
-        getContent() !=null){
-        for(
-        ContentChunk chunk :responseMsg.
-
-        getContent()){
-        if(chunk instanceof
-        TextChunk textChunk){
-        textContent +=textChunk.
-
-        getText(); // Append text from TextChunks
+// Extract text content (handle potential multi-modal content)
+String textContent = "";
+if (responseMsg.getContent() != null) {
+    for (ContentChunk chunk : responseMsg.getContent()) {
+        if (chunk instanceof TextChunk textChunk) {
+            textContent += textChunk.getText(); // Append text from TextChunks
         }
-                // Handle other chunk types (ImageURLChunk, etc.) if necessary
-                }
-                }
-                System.out.
-
-        println(textContent);
+        // Handle other chunk types (ImageURLChunk, etc.) if necessary
+    }
+}
+System.out.println(textContent);
 
 // Check for tool calls if applicable
-if(responseMsg.
-
-        getToolCalls() !=null){
-        // Process tool calls
-        }
+if (responseMsg.getToolCalls() != null) {
+    // Process tool calls
+}
 ```
 
 ### 4. Update Handling of Streaming Responses (`ChatCompletionChunkCallback`)
@@ -164,7 +149,7 @@ a `DeltaChoice`) has changed. Access `role`, `content`, and `toolCalls` directly
 ```java
 client.createChatCompletionStream(request, new ChatCompletionChunkCallback() {
     @Override
-    public void onChunkReceived (MessageChunk chunk){
+    public void onChunkReceived(MessageChunk chunk) {
         // Old structure assumed delta was nested in a Message object
         String contentDelta = chunk.getChoices().get(0).getMessage().getContent();
         if (contentDelta != null) {
@@ -186,7 +171,7 @@ import nl.dannyj.mistral.models.completion.content.TextChunk;
 // ...
 client.createChatCompletionStream(request, new ChatCompletionChunkCallback() {
     @Override
-    public void onChunkReceived (MessageChunk chunk){
+    public void onChunkReceived(MessageChunk chunk) {
         if (chunk.getChoices() == null || chunk.getChoices().isEmpty()) return;
 
         DeltaChoice deltaChoice = chunk.getChoices().get(0);
@@ -202,105 +187,39 @@ client.createChatCompletionStream(request, new ChatCompletionChunkCallback() {
     }
     // ... onComplete, onError
 });
+```
 
-        ### 5.
-Update Handling
-of `Choice`
-Object in `ChatCompletionResponse`
+### 5. Update Handling of `Choice` Object in `ChatCompletionResponse`
 
-The `nl.dannyj.mistral.models.completion.Choice`class,
-which is
-part of
-the `ChatCompletionResponse.
+The `Choice` class, which is part of the `ChatCompletionResponse.getChoices()`, has the following breaking changes:
 
-getChoices()`,
-has the
-following breaking
-changes:
+#### `finishReason` Type Change
+- The `finishReason` field is now of type `FinishReason` (an enum) instead of a raw `String`.
+- **Before:** `String finishReason = choice.getFinishReason();`
+- **After:** `FinishReason finishReason = choice.getFinishReason();`
+- To get the underlying string value (e.g., "stop", "length"), you can call `finishReason.getReason()`.
 
-        ***`finishReason`
-Type Change:**
-        *The `finishReason`
-field is
-now of
-type `nl.dannyj.mistral.models.completion.FinishReason` (an enum)
-instead of
-a raw `String`.
-        ***Before:** `
-String finishReason = choice.getFinishReason();`
-        ***After:** `
-FinishReason finishReasonEnum = choice.getFinishReason();`
-        *
-To get
-the underlying
+#### Example: Handling `finishReason` (within the context of iterating choices from `ChatCompletionResponse`)
 
-string value(e.g ., "stop","length"),you can call `finishReasonEnum.
-
-getReason()`.
-        ***
-Action Required:**
-Update your
-code to
-work with
-the `FinishReason`enum.
-This typically
-involves changing
-variable types
-and how
-you compare
-
-the reason(e.g ., using `==` with enum constants or comparing the string from `getReason()`).
-
-        **Example:Handling `finishReason` (
-within the
-context of
-iterating choices
-from `ChatCompletionResponse`)**
-
-        **
-
-Before(inside loop processing `choice`):**
-        ```java
+**Before(inside loop processing `choice`):**
+```java
 String reason = choice.getFinishReason();
-    if("stop".
-
-equals(reason)){
+    if ("stop".equals(reason)) {
         // ...
         }
-        ```
+```
 
-        **
-
-After(inside loop processing `choice`):**
-        ```java
+**After(inside loop processing `choice`):**
+```java
     import nl.dannyj.mistral.models.completion.FinishReason; // Ensure import
 // ...
 FinishReason reason = choice.getFinishReason();
-    if(reason ==FinishReason.STOP){
-        // ...
-        }
-        // Or, to compare with the string value:
-        // if ("stop".equals(reason.getReason())) { ... }
-        ```
-
-        ***`logProbs`
-Field Removal:**
-        *The `logProbs`
-
-field(previously a `String`) has been removed from the `Choice`
-
-class as it is no longer returned by the API.
-        ***
-Action Required:**
-If your
-code was
-accessing `choice.
-
-getLogProbs()`,this
-will now
-result in
-a compilation
-error.You must
-remove such
-accesses .
+if (reason == FinishReason.STOP) {
+    // ...
+}
+// Or, to compare with the string value:
+// if ("stop".equals(reason.getReason())) { ... }
 ```
+
+#### `logProbs` Field Removal
+- The `logProbs` field (previously a `String`) has been removed from the `Choice` class as it is no longer returned by the API.

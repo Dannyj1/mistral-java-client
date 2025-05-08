@@ -58,7 +58,7 @@ public class Function {
     private String description = "";
 
     /**
-     * The parameters the functions accepts, described as a JSON Schema object.
+     * The parameters the function accepts, described as a JSON Schema object.
      * See the <a href="https://json-schema.org/understanding-json-schema/">guide</a> for more information.
      * The user of this SDK should provide a valid JSON string representing the schema.
      *

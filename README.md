@@ -138,7 +138,7 @@ ChatCompletionResponse response = client.createChatCompletion(request);
 AssistantMessage firstChoice = response.getChoices().get(0).getMessage();
 String textContent = firstChoice.getTextContent();
 
-if (textContent !=null) {
+if (textContent != null) {
     System.out.println("Assistant:\n" + textContent);
 } else { 
     System.out.println("No text content available in the assistant's response.");
@@ -268,7 +268,6 @@ if (responseMessage.getToolCalls() != null && !responseMessage.getToolCalls().is
     System.out.println("Assistant:\n" + (textContent != null ? textContent : "No text content available."));
 }
 System.out.println("--- End of Function Calling Example ---");
-}
 ```
 
 Example output:
