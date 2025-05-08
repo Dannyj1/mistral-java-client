@@ -64,7 +64,7 @@ public class ChatCompletionRequest implements Request {
      * Higher values like 0.7 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
      * Mistral generally recommends altering this or top_p but not both. The default value varies depending on the model you are targeting.
      *
-     * @param temperature The sampling temperature to use. Has to be between 0.0 and 1.0. Null will default to the model's default value.
+     * @param temperature The sampling temperature to use. Has to be between 0.0 and 1.5. Null will default to the model's default value.
      * @return The sampling temperature to use.
      */
     @Nullable
