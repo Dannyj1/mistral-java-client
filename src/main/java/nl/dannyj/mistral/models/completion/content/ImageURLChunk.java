@@ -14,44 +14,41 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.completion;
+package nl.dannyj.mistral.models.completion.content;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import nl.dannyj.mistral.models.completion.message.AssistantMessage;
 
 /**
- * Represents a choice in a chat completion response. A choice contains the generated assistant message and the reason the generation finished.
+ * Represents an image URL part of the message content.
  */
-@Getter
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class Choice {
+@AllArgsConstructor
+public class ImageURLChunk implements ContentChunk {
 
     /**
-     * The index of the choice. Starts at 0.
+     * The image URL details.
      *
-     * @return the index of the choice
+     * @param imageUrl The ImageURL object containing the URI and optional detail.
+     * @return The ImageURL object.
      */
-    private int index;
+    @NotNull
+    @JsonProperty("image_url")
+    @Getter
+    private ImageURL imageUrl;
 
     /**
-     * The message that was generated.
+     * Gets the type identifier for this content chunk.
      *
-     * @return the assistant message that was generated
+     * @return The type string "image_url".
      */
-    private AssistantMessage message;
-
-    /**
-     * Reason for the completion to finish.
-     *
-     * @return the reason for the completion to finish
-     */
-    @JsonProperty("finish_reason")
-    private FinishReason finishReason;
-
+    @Override
+    @JsonIgnore
+    public String getType() {
+        return "image_url";
+    }
 }

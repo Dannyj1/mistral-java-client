@@ -16,87 +16,118 @@
 
 package nl.dannyj.mistral.builders;
 
-import nl.dannyj.mistral.models.completion.Message;
-import nl.dannyj.mistral.models.completion.MessageRole;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import nl.dannyj.mistral.models.completion.message.AssistantMessage;
+import nl.dannyj.mistral.models.completion.message.ChatMessage;
+import nl.dannyj.mistral.models.completion.message.SystemMessage;
+import nl.dannyj.mistral.models.completion.message.ToolMessage;
+import nl.dannyj.mistral.models.completion.message.UserMessage;
+import nl.dannyj.mistral.models.completion.tool.ToolCall;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The MessageListBuilder class is a builder class for creating a list of Message objects.
- * It provides methods to add messages of different roles (system, assistant, user) to the list.
- * The build method returns the list of Message objects that have been added.
+ * A builder class for creating a list of {@link ChatMessage} objects for a chat completion request.
+ * Provides convenience methods for adding messages with different roles and content types.
  */
 public class MessageListBuilder {
 
-    private final List<Message> messages;
+    private final List<ChatMessage> messages;
 
     /**
-     * Default constructor that initializes an empty list of Message objects.
+     * Default constructor that initializes an empty list of ChatMessage objects.
      */
     public MessageListBuilder() {
         this.messages = new ArrayList<>();
     }
 
     /**
-     * Constructor that initializes the list of Message objects with a provided list.
+     * Constructor that initializes the list of ChatMessage objects with a provided list.
      *
-     * @param messages The initial list of Message objects
+     * @param messages The initial list of ChatMessage objects.
      */
-    public MessageListBuilder(List<Message> messages) {
-        this.messages = messages;
+    public MessageListBuilder(List<ChatMessage> messages) {
+        this.messages = new ArrayList<>(messages);
     }
 
     /**
-     * Adds a message with the system role to the list with the provided content.
+     * Adds a system message to the list with the provided content.
      *
-     * @param content The content of the system message
-     * @return The builder instance
+     * @param content The text content of the system message. Cannot be null.
+     * @return This builder instance.
      */
-    public MessageListBuilder system(String content) {
-        this.messages.add(new Message(MessageRole.SYSTEM, content));
+    public MessageListBuilder system(@NotNull String content) {
+        this.messages.add(new SystemMessage(content));
         return this;
     }
 
     /**
-     * Adds a message with the assistant role to the list with the provided content.
+     * Adds an assistant message with text content to the list.
      *
-     * @param content The content of the assistant message
-     * @return The builder instance
+     * @param content The text content of the assistant message. Cannot be null.
+     * @return This builder instance.
      */
-    public MessageListBuilder assistant(String content) {
-        this.messages.add(new Message(MessageRole.ASSISTANT, content));
+    public MessageListBuilder assistant(@NotNull String content) {
+        this.messages.add(new AssistantMessage(content));
         return this;
     }
 
     /**
-     * Adds a message with the user role to the list with the provided content.
+     * Adds an assistant message with tool calls to the list.
      *
-     * @param content The content of the user message
-     * @return The builder instance
+     * @param toolCalls The list of tool calls. Cannot be null or empty.
+     * @return This builder instance.
      */
-    public MessageListBuilder user(String content) {
-        this.messages.add(new Message(MessageRole.USER, content));
+    public MessageListBuilder assistant(@NotNull @NotEmpty List<ToolCall> toolCalls) {
+        this.messages.add(new AssistantMessage(toolCalls));
         return this;
     }
 
     /**
-     * Adds a custom Message object to the list.
+     * Adds a user message with text content to the list.
      *
-     * @param message The Message object to be added
-     * @return The builder instance
+     * @param content The text content of the user message. Cannot be null.
+     * @return This builder instance.
      */
-    public MessageListBuilder message(Message message) {
+    public MessageListBuilder user(@NotNull String content) {
+        this.messages.add(new UserMessage(content));
+        return this;
+    }
+
+    /**
+     * Adds a tool message with text content to the list.
+     *
+     * @param content    The text content of the tool call. Cannot be null.
+     * @param toolCallId The ID of the tool call this message responds to. Can be null.
+     * @return This builder instance.
+     */
+    public MessageListBuilder tool(@NotNull String content, @Nullable String toolCallId) {
+        this.messages.add(new ToolMessage(content, toolCallId));
+        return this;
+    }
+
+
+    /**
+     * Adds a pre-constructed ChatMessage object to the list.
+     * Useful for adding messages with complex content or specific configurations (e.g., AssistantMessage with both content and tool calls).
+     *
+     * @param message The ChatMessage object to be added. Cannot be null.
+     * @return This builder instance.
+     */
+    public MessageListBuilder message(@NotNull ChatMessage message) {
         this.messages.add(message);
         return this;
     }
 
     /**
-     * Returns the list of Message objects that have been added.
+     * Returns the list of ChatMessage objects that have been added.
      *
-     * @return The list of Message objects
+     * @return The list of ChatMessage objects.
      */
-    public List<Message> build() {
+    public List<ChatMessage> build() {
         return this.messages;
     }
 }

@@ -14,47 +14,41 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.embedding;
+package nl.dannyj.mistral.models.completion;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nl.dannyj.mistral.models.Request;
-
-import java.util.List;
 
 /**
- * The EmbeddingRequest class represents a request to create embedding for a list of strings.
- * Most of the field descriptions are taken from the Mistral API documentation.
+ * Represents the predicted output to optimize response time for ChatCompletionRequest.
+ * See the <a href="https://docs.mistral.ai/capabilities/predicted-outputs/">Predicted Outputs guide</a> for more details.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class EmbeddingRequest implements Request {
+@NoArgsConstructor
+@AllArgsConstructor
+public class Prediction {
 
     /**
-     * The ID of the model to use for this request.
+     * The type of the prediction. Currently, only "content" is supported.
      *
-     * @param model The model ID.
-     * @return The model ID.
+     * @param type The type of the prediction.
+     * @return The type of the prediction.
      */
     @NotNull
-    @NotBlank
-    private String model;
+    @Builder.Default
+    private String type = "content";
 
     /**
-     * The list of strings to embed.
+     * The predicted content.
      *
-     * @param input The list of strings to embed. Each entry will be embedded separately.
-     * @return The list of strings to embed.
+     * @param content The predicted content string.
+     * @return The predicted content string.
      */
     @NotNull
-    @Size(min = 1)
-    private List<String> input;
-
+    @Builder.Default
+    private String content = "";
 }

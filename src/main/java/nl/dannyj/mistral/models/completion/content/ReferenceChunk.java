@@ -14,51 +14,45 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.completion;
+package nl.dannyj.mistral.models.completion.content;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
- * A message in a conversation. A message contains the role of the message, and the content of the message.
+ * Represents a reference part of the message content, linking to specific source materials or documents.
  */
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Message {
+@AllArgsConstructor
+public class ReferenceChunk implements ContentChunk {
 
     /**
-     * The role of the message.
-     * Currently, there are 3 roles: user, assistant, and system.
+     * A list of integer identifiers referencing related documents or sources.
      *
-     * @param role The role of the message.
-     * @return The role of the message.
+     * @param referenceIds The list of reference IDs.
+     * @return The list of reference IDs.
      */
     @NotNull
-    private MessageRole role;
+    @NotEmpty
+    @JsonProperty("reference_ids")
+    @Getter
+    private List<Integer> referenceIds;
 
     /**
-     * The content of the message.
+     * Gets the type identifier for this content chunk.
      *
-     * @param content The content of the message.
-     * @return The content of the message.
+     * @return The type string "reference".
      */
-    @NotNull
-    private String content;
-
-    /**
-     * Unimplemented. Don't use.
-     */
-    @JsonProperty("tool_calls")
-    private List<String> toolCalls;
-
-    public Message(MessageRole role, String content) {
-        this.role = role;
-        this.content = content;
+    @Override
+    @JsonIgnore
+    public String getType() {
+        return "reference";
     }
 }

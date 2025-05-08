@@ -14,40 +14,39 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.embedding;
+package nl.dannyj.mistral.models.completion.tool;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import java.util.List;
-
-@Getter
-@AllArgsConstructor
+/**
+ * Represents a tool that the model can call.
+ */
+@Data
+@Builder
 @NoArgsConstructor
-@ToString
-public class FloatEmbedding {
+@AllArgsConstructor
+public class Tool {
 
     /**
-     * Undocumented, seems to be the type of the response.
+     * The type of the tool. Currently, only "function" is supported.
      *
-     * @return the type of the response
+     * @param type The type of the tool.
+     * @return The type of the tool.
      */
-    private String object;
+    @NotNull
+    @Builder.Default
+    private ToolType type = ToolType.FUNCTION;
 
     /**
-     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/capabilities/embeddings/">mistral documentation</a> for more details on embeddings.
+     * The function definition. Required if type is "function".
      *
-     * @return the float embeddings for the input string
+     * @param function The function definition.
+     * @return The function definition.
      */
-    private List<Float> embedding;
-
-    /**
-     * The index of the input string in the input list.
-     *
-     * @return the index of the input string in the input list
-     */
-    private int index;
-
+    @NotNull
+    private Function function;
 }

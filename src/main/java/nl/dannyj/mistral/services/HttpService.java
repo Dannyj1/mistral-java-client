@@ -67,7 +67,7 @@ public class HttpService {
      * Makes a POST request to the specified URL path with the provided body.
      *
      * @param urlPath The URL path to make the POST request to
-     * @param body The JSON body of the POST request
+     * @param body    The JSON body of the POST request
      * @return The response body as a string
      */
     public String post(@NonNull String urlPath, @NonNull String body) {
@@ -108,7 +108,7 @@ public class HttpService {
 
         try (Response response = httpClient.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                throw new MistralAPIException("Received unexpected response code " + response.code() + ": " + response);
+                throw new MistralAPIException("Received unexpected response code " + response.code() + ": " + (response.body() != null ? response.body().string() : response));
             }
 
             try (ResponseBody responseBody = response.body()) {

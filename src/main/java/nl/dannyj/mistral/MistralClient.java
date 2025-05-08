@@ -36,6 +36,7 @@ import nl.dannyj.mistral.services.MistralService;
 import okhttp3.OkHttpClient;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The MistralClient is the main class that interacts with all components of this library.
@@ -62,7 +63,7 @@ public class MistralClient {
      */
     public MistralClient(@NonNull String apiKey) {
         this.apiKey = apiKey;
-        this.httpClient = buildHttpClient();
+        this.httpClient = buildHttpClient(120, 10, 10);
         this.objectMapper = buildObjectMapper();
         this.mistralService = buildMistralService();
     }
@@ -72,7 +73,7 @@ public class MistralClient {
      */
     public MistralClient() {
         this.apiKey = System.getenv(API_KEY_ENV_VAR);
-        this.httpClient = buildHttpClient();
+        this.httpClient = buildHttpClient(120, 10, 10);
         this.objectMapper = buildObjectMapper();
         this.mistralService = buildMistralService();
     }
@@ -112,7 +113,52 @@ public class MistralClient {
      */
     public MistralClient(@NonNull String apiKey, @NonNull ObjectMapper objectMapper) {
         this.apiKey = apiKey;
-        this.httpClient = buildHttpClient();
+        this.httpClient = buildHttpClient(120, 10, 10);
+        this.objectMapper = objectMapper;
+        this.mistralService = buildMistralService();
+    }
+
+    /**
+     * Constructor that initializes the MistralClient with a provided API key and custom timeouts.
+     *
+     * @param apiKey                The API key to be used for the Mistral AI API
+     * @param readTimeoutSeconds    The read timeout in seconds
+     * @param connectTimeoutSeconds The connect timeout in seconds
+     * @param writeTimeoutSeconds   The write timeout in seconds
+     */
+    public MistralClient(@NonNull String apiKey, int readTimeoutSeconds, int connectTimeoutSeconds, int writeTimeoutSeconds) {
+        this.apiKey = apiKey;
+        this.httpClient = buildHttpClient(readTimeoutSeconds, connectTimeoutSeconds, writeTimeoutSeconds);
+        this.objectMapper = buildObjectMapper();
+        this.mistralService = buildMistralService();
+    }
+
+    /**
+     * Default constructor that initializes the MistralClient with the API key from the environment variable "MISTRAL_API_KEY" and custom timeouts.
+     *
+     * @param readTimeoutSeconds    The read timeout in seconds
+     * @param connectTimeoutSeconds The connect timeout in seconds
+     * @param writeTimeoutSeconds   The write timeout in seconds
+     */
+    public MistralClient(int readTimeoutSeconds, int connectTimeoutSeconds, int writeTimeoutSeconds) {
+        this.apiKey = System.getenv(API_KEY_ENV_VAR);
+        this.httpClient = buildHttpClient(readTimeoutSeconds, connectTimeoutSeconds, writeTimeoutSeconds);
+        this.objectMapper = buildObjectMapper();
+        this.mistralService = buildMistralService();
+    }
+
+    /**
+     * Constructor that initializes the MistralClient with a provided API key, object mapper, and custom timeouts.
+     *
+     * @param apiKey                The API key to be used for the Mistral AI API
+     * @param objectMapper          The Jackson ObjectMapper to be used for serializing and deserializing JSON
+     * @param readTimeoutSeconds    The read timeout in seconds
+     * @param connectTimeoutSeconds The connect timeout in seconds
+     * @param writeTimeoutSeconds   The write timeout in seconds
+     */
+    public MistralClient(@NonNull String apiKey, @NonNull ObjectMapper objectMapper, int readTimeoutSeconds, int connectTimeoutSeconds, int writeTimeoutSeconds) {
+        this.apiKey = apiKey;
+        this.httpClient = buildHttpClient(readTimeoutSeconds, connectTimeoutSeconds, writeTimeoutSeconds);
         this.objectMapper = objectMapper;
         this.mistralService = buildMistralService();
     }
@@ -147,7 +193,7 @@ public class MistralClient {
 
     /**
      * This method is used to create an embedding using the Mistral AI API.
-     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/capabilities/embeddings/">mistral documentation</a> for more details on embeddings.
      * This is a blocking method.
      *
      * @param request The request to create an embedding. See {@link EmbeddingRequest}.
@@ -161,7 +207,7 @@ public class MistralClient {
 
     /**
      * This method is used to create an embedding using the Mistral AI API.
-     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/guides/embeddings/">mistral documentation</a> for more details on embeddings.
+     * The embeddings for the input strings. See the <a href="https://docs.mistral.ai/capabilities/embeddings/">mistral documentation</a> for more details on embeddings.
      * This is a non-blocking/asynchronous method.
      *
      * @param request The request to create an embedding. See {@link EmbeddingRequest}.
@@ -213,11 +259,13 @@ public class MistralClient {
      *
      * @return A new instance of OkHttpClient
      */
-    private OkHttpClient buildHttpClient() {
+    private OkHttpClient buildHttpClient(int readTimeoutSeconds, int connectTimeoutSeconds, int writeTimeoutSeconds) {
         MistralHeaderInterceptor mistralInterceptor = new MistralHeaderInterceptor(this);
 
         return new OkHttpClient.Builder()
-                .readTimeout(20, java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(readTimeoutSeconds, TimeUnit.SECONDS)
+                .connectTimeout(connectTimeoutSeconds, TimeUnit.SECONDS)
+                .writeTimeout(writeTimeoutSeconds, TimeUnit.SECONDS)
                 .addInterceptor(mistralInterceptor)
                 .build();
     }

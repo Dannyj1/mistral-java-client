@@ -14,47 +14,40 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.embedding;
+package nl.dannyj.mistral.models.completion.tool;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nl.dannyj.mistral.models.Request;
-
-import java.util.List;
 
 /**
- * The EmbeddingRequest class represents a request to create embedding for a list of strings.
- * Most of the field descriptions are taken from the Mistral API documentation.
+ * Represents the object variant for the 'tool_choice' parameter in a ChatCompletionRequest.
+ * This forces the model to call a specific function.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class EmbeddingRequest implements Request {
+@NoArgsConstructor
+@AllArgsConstructor
+public final class SpecificToolChoice implements ToolChoiceOption {
 
     /**
-     * The ID of the model to use for this request.
+     * The type of the tool to be called. Currently, only "function" is supported.
      *
-     * @param model The model ID.
-     * @return The model ID.
+     * @param type The type of the tool.
+     * @return The type of the tool.
      */
     @NotNull
-    @NotBlank
-    private String model;
+    @Builder.Default
+    private ToolType type = ToolType.FUNCTION;
 
     /**
-     * The list of strings to embed.
+     * The details of the function to be called.
      *
-     * @param input The list of strings to embed. Each entry will be embedded separately.
-     * @return The list of strings to embed.
+     * @param function The function name.
+     * @return The function name.
      */
     @NotNull
-    @Size(min = 1)
-    private List<String> input;
-
+    private FunctionName function;
 }

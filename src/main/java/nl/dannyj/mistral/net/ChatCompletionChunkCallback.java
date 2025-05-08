@@ -16,7 +16,7 @@
 
 package nl.dannyj.mistral.net;
 
-import nl.dannyj.mistral.models.completion.MessageChunk;
+import nl.dannyj.mistral.models.completion.message.MessageChunk;
 
 /**
  * Interface for handling streaming chat completion requests.

@@ -16,12 +16,15 @@
 
 package nl.dannyj.mistral.models.completion;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import nl.dannyj.mistral.models.completion.tool.JsonSchema;
 
 @Getter
 @Setter
@@ -42,4 +45,22 @@ public class ResponseFormat {
     @NotNull
     private ResponseFormats type = ResponseFormats.TEXT;
 
+    /**
+     * The JSON schema definition to use when type is JSON_SCHEMA.
+     *
+     * @param jsonSchema The JSON schema definition.
+     * @return The JSON schema definition.
+     */
+    @JsonProperty("json_schema")
+    @Nullable
+    private JsonSchema jsonSchema = null;
+
+    /**
+     * Constructor for creating a ResponseFormat object with a specified type.
+     *
+     * @param type The type of the response format.
+     */
+    public ResponseFormat(ResponseFormats type) {
+        this.type = type;
+    }
 }

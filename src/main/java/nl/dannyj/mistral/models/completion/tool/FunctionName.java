@@ -14,47 +14,33 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.embedding;
+package nl.dannyj.mistral.models.completion.tool;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nl.dannyj.mistral.models.Request;
-
-import java.util.List;
 
 /**
- * The EmbeddingRequest class represents a request to create embedding for a list of strings.
- * Most of the field descriptions are taken from the Mistral API documentation.
+ * Represents the name of a function, used when specifying a particular function for tool_choice.
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class EmbeddingRequest implements Request {
+@AllArgsConstructor
+public class FunctionName {
 
     /**
-     * The ID of the model to use for this request.
+     * The name of the function. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.
      *
-     * @param model The model ID.
-     * @return The model ID.
+     * @param name The name of the function.
+     * @return The name of the function.
      */
     @NotNull
     @NotBlank
-    private String model;
-
-    /**
-     * The list of strings to embed.
-     *
-     * @param input The list of strings to embed. Each entry will be embedded separately.
-     * @return The list of strings to embed.
-     */
-    @NotNull
-    @Size(min = 1)
-    private List<String> input;
-
+    @Size(max = 64)
+    @Pattern(regexp = "^[a-zA-Z0-9_-]{1,64}$", message = "Function name must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.")
+    private String name;
 }

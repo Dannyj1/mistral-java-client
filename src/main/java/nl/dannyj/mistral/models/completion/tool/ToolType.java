@@ -14,32 +14,35 @@
  * limitations under the License.
  */
 
-package nl.dannyj.mistral.models.completion;
+package nl.dannyj.mistral.models.completion.tool;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * The response formats supported by mistral.
+ * Defines the type of a tool.
+ * Currently, only "function" is supported.
  */
-public enum ResponseFormats {
+public enum ToolType {
 
-    TEXT("text"),
-    JSON_OBJECT("json_object"),
-    JSON_SCHEMA("json_schema");
+    /**
+     * Represents a function tool.
+     */
+    FUNCTION("function");
 
-    private final String format;
+    private final String type;
 
-    ResponseFormats(String format) {
-        this.format = format;
+    ToolType(String type) {
+        this.type = type;
     }
 
     /**
-     * Returns a lowercase string representation of the format. To be used when interacting with the API.
+     * Gets the string representation of the tool type.
+     * This value is used for JSON serialization.
      *
-     * @return Lowercase string representation of the format.
+     * @return The tool type as a string.
      */
     @JsonValue
-    public String getFormat() {
-        return format;
+    public String getType() {
+        return type;
     }
 }

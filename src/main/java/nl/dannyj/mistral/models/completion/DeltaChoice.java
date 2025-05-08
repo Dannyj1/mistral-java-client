@@ -16,14 +16,18 @@
 
 package nl.dannyj.mistral.models.completion;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import nl.dannyj.mistral.models.completion.message.DeltaMessage;
 
 /**
- * Represents a choice of a streamed message chunk in a completion. A choice contains the message that was generated and the reason for the completion to finish.
+ * Represents a delta update within a choice during a streamed chat completion.
+ * Contains partial information about the message delta.
  */
 @Getter
 @AllArgsConstructor
@@ -39,22 +43,33 @@ public class DeltaChoice {
     private int index;
 
     /**
-     * The message that was generated.
+     * The delta containing partial message updates.
      *
-     * @return the message that was generated
+     * @param delta The delta message object.
+     * @return The delta message object.
      */
-    @JsonProperty("delta")
-    private Message message;
+    private DeltaMessage delta;
 
     /**
      * Reason for the completion to finish.
+     * Can be null if the stream is not finished.
      *
-     * @return the reason for the completion to finish
+     * @return the reason for the completion to finish, or null.
      */
+    @Nullable
     @JsonProperty("finish_reason")
-    private String finishReason;
+    private FinishReason finishReason;
 
-    @JsonProperty("logprobs")
-    private String logProbs;
+    /**
+     * Gets the text content of the delta.
+     * This is a convenience method that extracts the text from all TextChunks, ignoring other types of content.
+     *
+     * @return The concatenated text content of the message from the delta, or null if the delta is null.
+     */
+    @Nullable
+    @JsonIgnore
+    public String getTextContent() {
+        return delta != null ? delta.getTextContent() : null;
+    }
 
 }
