@@ -29,7 +29,7 @@ public class MistralHeaderInterceptor implements Interceptor {
     private final String apiKey;
 
     public MistralHeaderInterceptor(@NonNull String apiKey) {
-        if (apiKey == null || apiKey.isBlank()) {
+        if (apiKey.isBlank()) {
             throw new IllegalArgumentException("No API key provided in MistralClient");
         }
 
