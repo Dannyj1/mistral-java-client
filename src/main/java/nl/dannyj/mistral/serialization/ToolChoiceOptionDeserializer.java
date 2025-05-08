@@ -41,16 +41,8 @@ public class ToolChoiceOptionDeserializer extends JsonDeserializer<ToolChoiceOpt
 
         if (token == JsonToken.VALUE_STRING) {
             String enumValue = jp.getText().toUpperCase();
-            try {
-                return ToolChoiceEnum.valueOf(enumValue);
-            } catch (IllegalArgumentException e) {
-                if ("ANY".equalsIgnoreCase(enumValue)) return ToolChoiceEnum.ANY;
-                if ("AUTO".equalsIgnoreCase(enumValue)) return ToolChoiceEnum.AUTO;
-                if ("NONE".equalsIgnoreCase(enumValue)) return ToolChoiceEnum.NONE;
-                if ("REQUIRED".equalsIgnoreCase(enumValue)) return ToolChoiceEnum.REQUIRED;
 
-                throw ctxt.weirdStringException(enumValue, ToolChoiceEnum.class, "Not a valid ToolChoiceEnum value");
-            }
+            return ToolChoiceEnum.valueOf(enumValue);
         } else if (token == JsonToken.START_OBJECT) {
             return mapper.readValue(jp, SpecificToolChoice.class);
         }
