@@ -52,7 +52,6 @@ public abstract class ChatMessage {
     /**
      * The content of the message. Can be null or a list of content chunks.
      *
-     * @param content The list of content chunks, or null.
      * @return The list of content chunks, or null.
      */
     @Nullable

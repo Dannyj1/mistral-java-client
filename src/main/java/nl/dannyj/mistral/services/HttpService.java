@@ -17,7 +17,6 @@
 package nl.dannyj.mistral.services;
 
 import lombok.NonNull;
-import nl.dannyj.mistral.MistralClient;
 import nl.dannyj.mistral.exceptions.MistralAPIException;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -37,15 +36,15 @@ public class HttpService {
 
     private static final String API_URL = "https://api.mistral.ai/v1";
 
-    private final MistralClient client;
+    private final OkHttpClient httpClient;
 
     /**
-     * Constructor that initializes the HttpService with a provided MistralClient.
+     * Constructor that initializes the HttpService with a provided OkHttpClient.
      *
-     * @param client The MistralClient to be used for making requests to the Mistral AI API
+     * @param httpClient The OkHttpClient to be used for making requests to the Mistral AI API
      */
-    public HttpService(@NonNull MistralClient client) {
-        this.client = client;
+    public HttpService(@NonNull OkHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
     /**
@@ -91,7 +90,6 @@ public class HttpService {
                 .url(API_URL + urlPath)
                 .post(RequestBody.create(body, MediaType.parse("application/json")))
                 .build();
-        OkHttpClient httpClient = client.getHttpClient();
 
         httpClient.newCall(request).enqueue(callBack);
     }
@@ -104,8 +102,6 @@ public class HttpService {
      * @throws MistralAPIException If the response is not successful, the response body is null or an IOException occurs in the objectmapper
      */
     private String executeRequest(Request request) {
-        OkHttpClient httpClient = client.getHttpClient();
-
         try (Response response = httpClient.newCall(request).execute()) {
             if (!response.isSuccessful()) {
                 throw new MistralAPIException("Received unexpected response code " + response.code() + ": " + (response.body() != null ? response.body().string() : response));

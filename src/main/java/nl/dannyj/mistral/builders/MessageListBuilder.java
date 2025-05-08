@@ -18,7 +18,7 @@ package nl.dannyj.mistral.builders;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import lombok.NonNull;
 import nl.dannyj.mistral.models.completion.message.AssistantMessage;
 import nl.dannyj.mistral.models.completion.message.ChatMessage;
 import nl.dannyj.mistral.models.completion.message.SystemMessage;
@@ -59,7 +59,7 @@ public class MessageListBuilder {
      * @param content The text content of the system message. Cannot be null.
      * @return This builder instance.
      */
-    public MessageListBuilder system(@NotNull String content) {
+    public MessageListBuilder system(@NonNull String content) {
         this.messages.add(new SystemMessage(content));
         return this;
     }
@@ -70,7 +70,7 @@ public class MessageListBuilder {
      * @param content The text content of the assistant message. Cannot be null.
      * @return This builder instance.
      */
-    public MessageListBuilder assistant(@NotNull String content) {
+    public MessageListBuilder assistant(@NonNull String content) {
         this.messages.add(new AssistantMessage(content));
         return this;
     }
@@ -81,7 +81,7 @@ public class MessageListBuilder {
      * @param toolCalls The list of tool calls. Cannot be null or empty.
      * @return This builder instance.
      */
-    public MessageListBuilder assistant(@NotNull @NotEmpty List<ToolCall> toolCalls) {
+    public MessageListBuilder assistant(@NonNull @NotEmpty List<ToolCall> toolCalls) {
         this.messages.add(new AssistantMessage(toolCalls));
         return this;
     }
@@ -92,7 +92,7 @@ public class MessageListBuilder {
      * @param content The text content of the user message. Cannot be null.
      * @return This builder instance.
      */
-    public MessageListBuilder user(@NotNull String content) {
+    public MessageListBuilder user(@NonNull String content) {
         this.messages.add(new UserMessage(content));
         return this;
     }
@@ -104,7 +104,7 @@ public class MessageListBuilder {
      * @param toolCallId The ID of the tool call this message responds to. Can be null.
      * @return This builder instance.
      */
-    public MessageListBuilder tool(@NotNull String content, @Nullable String toolCallId) {
+    public MessageListBuilder tool(@NonNull String content, @Nullable String toolCallId) {
         this.messages.add(new ToolMessage(content, toolCallId));
         return this;
     }
@@ -117,7 +117,7 @@ public class MessageListBuilder {
      * @param message The ChatMessage object to be added. Cannot be null.
      * @return This builder instance.
      */
-    public MessageListBuilder message(@NotNull ChatMessage message) {
+    public MessageListBuilder message(@NonNull ChatMessage message) {
         this.messages.add(message);
         return this;
     }

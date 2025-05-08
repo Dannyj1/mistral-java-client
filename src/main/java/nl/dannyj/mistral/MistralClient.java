@@ -251,7 +251,7 @@ public class MistralClient {
      * @return A new instance of MistralService
      */
     private MistralService buildMistralService() {
-        return new MistralService(this, new HttpService(this));
+        return new MistralService(new HttpService(this.httpClient), this.objectMapper);
     }
 
     /**
@@ -260,7 +260,7 @@ public class MistralClient {
      * @return A new instance of OkHttpClient
      */
     private OkHttpClient buildHttpClient(int readTimeoutSeconds, int connectTimeoutSeconds, int writeTimeoutSeconds) {
-        MistralHeaderInterceptor mistralInterceptor = new MistralHeaderInterceptor(this);
+        MistralHeaderInterceptor mistralInterceptor = new MistralHeaderInterceptor(this.getApiKey());
 
         return new OkHttpClient.Builder()
                 .readTimeout(readTimeoutSeconds, TimeUnit.SECONDS)

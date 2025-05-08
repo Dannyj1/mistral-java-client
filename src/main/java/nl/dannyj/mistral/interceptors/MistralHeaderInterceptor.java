@@ -17,7 +17,6 @@
 package nl.dannyj.mistral.interceptors;
 
 import lombok.NonNull;
-import nl.dannyj.mistral.MistralClient;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -27,21 +26,21 @@ import java.io.IOException;
 
 public class MistralHeaderInterceptor implements Interceptor {
 
-    private final MistralClient client;
+    private final String apiKey;
 
-    public MistralHeaderInterceptor(@NonNull MistralClient client) {
-        this.client = client;
+    public MistralHeaderInterceptor(@NonNull String apiKey) {
+        if (apiKey.isBlank()) {
+            throw new IllegalArgumentException("No API key provided");
+        }
+
+        this.apiKey = apiKey;
     }
 
     @NotNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         Request.Builder newRequestBuilder = request.newBuilder();
-
-        if (client.getApiKey() == null || client.getApiKey().isBlank()) {
-            throw new IllegalArgumentException("No API key provided in MistralClient");
-        }
 
         if (request.header("Content-Type") == null) {
             newRequestBuilder.addHeader("Content-Type", "application/json");
@@ -52,7 +51,7 @@ public class MistralHeaderInterceptor implements Interceptor {
         }
 
         if (request.header("Authorization") == null) {
-            newRequestBuilder.addHeader("Authorization", "Bearer " + client.getApiKey());
+            newRequestBuilder.addHeader("Authorization", "Bearer " + this.apiKey);
         }
 
         Request newRequest = newRequestBuilder.build();

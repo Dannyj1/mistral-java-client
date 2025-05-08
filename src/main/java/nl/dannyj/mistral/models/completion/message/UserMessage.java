@@ -17,9 +17,9 @@
 package nl.dannyj.mistral.models.completion.message;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import nl.dannyj.mistral.models.completion.content.ContentChunk;
 import nl.dannyj.mistral.models.completion.content.TextChunk;
 
@@ -39,7 +39,7 @@ public class UserMessage extends ChatMessage {
      *
      * @param textContent The text content for the user message. Cannot be null or empty.
      */
-    public UserMessage(@NotNull String textContent) {
+    public UserMessage(@NonNull String textContent) {
         if (textContent.isEmpty()) {
             throw new IllegalArgumentException("User message text content cannot be empty.");
         }
@@ -51,7 +51,7 @@ public class UserMessage extends ChatMessage {
      *
      * @param contentChunks The list of content chunks. Cannot be null or empty.
      */
-    public UserMessage(@NotNull @NotEmpty List<ContentChunk> contentChunks) {
+    public UserMessage(@NonNull @NotEmpty List<ContentChunk> contentChunks) {
         this.content = contentChunks;
     }
 
