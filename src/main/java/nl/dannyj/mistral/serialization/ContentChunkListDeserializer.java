@@ -34,7 +34,7 @@ import java.util.List;
 
 public class ContentChunkListDeserializer extends StdDeserializer<List<ContentChunk>> implements ContextualDeserializer {
 
-    private JsonDeserializer<?> defaultDeserializer;
+    private transient JsonDeserializer<?> defaultDeserializer;
 
     public ContentChunkListDeserializer() {
         this(null);
