@@ -49,9 +49,9 @@ dependencies {
 </repositories>
 
 <dependency>
-<groupId>com.github.Dannyj1</groupId>
-<artifactId>mistral-java-client</artifactId>
-<version>2.0.0</version>
+    <groupId>com.github.Dannyj1</groupId>
+    <artifactId>mistral-java-client</artifactId>
+    <version>2.0.0</version>
 </dependency>
 ```
 
