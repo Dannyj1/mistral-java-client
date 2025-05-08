@@ -4,8 +4,12 @@ nl.dannyj.mistral.exceptions
 nl.dannyj.mistral.interceptors
 nl.dannyj.mistral.models
 nl.dannyj.mistral.models.completion
+nl.dannyj.mistral.models.completion.content
+nl.dannyj.mistral.models.completion.message
+nl.dannyj.mistral.models.completion.tool
 nl.dannyj.mistral.models.embedding
 nl.dannyj.mistral.models.model
 nl.dannyj.mistral.models.usage
 nl.dannyj.mistral.net
+nl.dannyj.mistral.serialization
 nl.dannyj.mistral.services
