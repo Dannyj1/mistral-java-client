@@ -17,13 +17,13 @@
 package nl.dannyj.mistral.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import lombok.NonNull;
-import nl.dannyj.mistral.MistralClient;
 import nl.dannyj.mistral.exceptions.InvalidJsonException;
 import nl.dannyj.mistral.exceptions.UnexpectedResponseEndException;
 import nl.dannyj.mistral.exceptions.UnexpectedResponseException;
@@ -55,17 +55,17 @@ import java.util.concurrent.CompletableFuture;
 public class MistralService {
 
     private final HttpService httpService;
-    private final MistralClient client;
+    private final ObjectMapper objectMapper;
     private final Validator validator;
 
     /**
      * Constructor that initializes the MistralService with a provided MistralClient and HttpService.
      *
-     * @param client      The MistralClient to be used for interacting with the Mistral AI API
-     * @param httpService The HttpService to be used for making HTTP requests
+     * @param httpService The HttpService to be used for making HTTP requests to the Mistral AI API
+     * @param objectMapper The ObjectMapper to be used for converting objects to and from JSON
      */
-    public MistralService(@NonNull MistralClient client, @NonNull HttpService httpService) {
-        this.client = client;
+    public MistralService(@NonNull HttpService httpService, @NonNull ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
         this.httpService = httpService;
 
         try (ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory()) {
@@ -118,7 +118,7 @@ public class MistralService {
         validateRequest(request);
 
         try {
-            String requestJson = client.getObjectMapper().writeValueAsString(request);
+            String requestJson = this.objectMapper.writeValueAsString(request);
 
             httpService.streamPost("/chat/completions", requestJson, new Callback() {
                 @Override
@@ -161,7 +161,7 @@ public class MistralService {
         String response = httpService.get("/models");
 
         try {
-            return client.getObjectMapper().readValue(response, ListModelsResponse.class);
+            return this.objectMapper.readValue(response, ListModelsResponse.class);
         } catch (JsonProcessingException e) {
             throw new UnexpectedResponseException("Received unexpected response from the Mistral.ai API (mistral-java-client might need to be updated): " + response, e);
         }
@@ -238,7 +238,7 @@ public class MistralService {
         String requestJson = null;
 
         try {
-            requestJson = client.getObjectMapper().writeValueAsString(request);
+            requestJson = this.objectMapper.writeValueAsString(request);
         } catch (JsonProcessingException e) {
             throw new InvalidJsonException("Failed to convert request to JSON", e);
         }
@@ -246,7 +246,7 @@ public class MistralService {
         try {
             response = httpService.post(endpoint, requestJson);
 
-            return client.getObjectMapper().readValue(response, responseType);
+            return this.objectMapper.readValue(response, responseType);
         } catch (JsonProcessingException e) {
             throw new UnexpectedResponseException("Received unexpected response from the Mistral.ai API (mistral-java-client might need to be updated): " + response, e);
         }
@@ -266,7 +266,7 @@ public class MistralService {
                 }
 
                 try {
-                    MessageChunk messageChunk = client.getObjectMapper().readValue(chunk, MessageChunk.class);
+                    MessageChunk messageChunk = this.objectMapper.readValue(chunk, MessageChunk.class);
 
                     callback.onChunkReceived(messageChunk);
                 } catch (JsonProcessingException e) {

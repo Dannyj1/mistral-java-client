@@ -251,7 +251,7 @@ public class MistralClient {
      * @return A new instance of MistralService
      */
     private MistralService buildMistralService() {
-        return new MistralService(this, new HttpService(this.httpClient));
+        return new MistralService(new HttpService(this.httpClient), this.objectMapper);
     }
 
     /**
