@@ -58,7 +58,7 @@ public class MistralService {
     private final Validator validator;
 
     /**
-     * Constructor that initializes the MistralService with a provided MistralClient and HttpService.
+     * Constructor that initializes the MistralService with a provided HttpService and ObjectMapper.
      *
      * @param httpService The HttpService to be used for making HTTP requests to the Mistral AI API
      * @param objectMapper The ObjectMapper to be used for converting objects to and from JSON

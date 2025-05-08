@@ -39,7 +39,7 @@ public class HttpService {
     private final OkHttpClient httpClient;
 
     /**
-     * Constructor that initializes the HttpService with a provided MistralClient.
+     * Constructor that initializes the HttpService with a provided OkHttpClient.
      *
      * @param httpClient The OkHttpClient to be used for making requests to the Mistral AI API
      */
