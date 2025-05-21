@@ -4,7 +4,7 @@
 
 **Mistral-java-client** is a Java client for the [Mistral AI](https://mistral.ai/) API. It allows you to easily interact
 with the Mistral AI API from your Java application.
-Supports all chat completion and embedding models available in the API.
+Supports all chat completion, OCR, and embedding models available in the API.
 
 New models or models not listed here may be already supported without any updates to the library.
 
@@ -15,6 +15,7 @@ Mistral-java-client is built against version 0.0.2 of the [Mistral AI API](https
 - [Chat Completion](https://docs.mistral.ai/api/#tag/chat/operation/chat_completion_v1_chat_completions_post)
 - [List Models](https://docs.mistral.ai/api/#tag/models/operation/list_models_v1_models_get)
 - [Embeddings](https://docs.mistral.ai/api/#tag/embeddings/operation/embeddings_v1_embeddings_post)
+- [OCR](https://docs.mistral.ai/api/#tag/ocr)
 
 # Requirements
 
@@ -33,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Dannyj1:mistral-java-client:2.0.0'
+    implementation 'com.github.Dannyj1:mistral-java-client:2.1.0'
 }
 ```
 
@@ -51,7 +52,7 @@ dependencies {
 <dependency>
     <groupId>com.github.Dannyj1</groupId>
     <artifactId>mistral-java-client</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
@@ -397,11 +398,74 @@ Example output:
 [-0.02015686, 0.04272461, 0.05529785, ... , -0.006855011, 0.009529114, -0.016448975]
 ```
 
+
+## OCR Completion
+
+This example shows how to use the Mistral AI API to perform OCR on a document.
+
+```java
+import nl.dannyj.mistral.MistralClient;
+import nl.dannyj.mistral.models.completion.content.DocumentURLChunk;
+import nl.dannyj.mistral.models.ocr.OCRRequest;
+import nl.dannyj.mistral.models.ocr.OCRResponse;
+import nl.dannyj.mistral.models.ocr.OCRPageObject;
+
+import java.net.URI;
+
+public class MinimalOcrExample {
+
+    public static void main(String[] args) {
+        // Replace "C:\\path\\to\\file.pdf" with the actual path to your document
+        String filePath = "C:\\\\path\\\\to\\\\file.pdf";
+        File documentFile = new File(filePath);
+      
+        // Replace "YOUR_API_KEY" with your actual Mistral AI API key
+        // Or set the MISTRAL_API_KEY environment variable
+        MistralClient client = new MistralClient("YOUR_API_KEY");
+
+        // Convert document to base64
+        byte[] documentBytes = Files.readAllBytes(documentFile.toPath());
+        String documentBase64 = Base64.getEncoder().encodeToString(documentBytes);
+        URI documentUrl = URI.create("data:application/pdf;base64," + documentBase64);
+
+        DocumentURLChunk documentChunk = DocumentURLChunk.builder()
+                .documentUrl(documentUrl)
+                .documentName("your_document.pdf") // Replace with your document name
+                .build();
+
+        OCRRequest request = OCRRequest.builder()
+                .model("mistral-ocr-latest") // Or another supported OCR model
+                .document(documentChunk)
+                .build();
+
+        try {
+            System.out.println("Performing OCR...");
+            OCRResponse response = client.createOcrCompletion(request);
+
+            System.out.println("OCR Results:");
+            if (response.getPages() != null && !response.getPages().isEmpty()) {
+                // Print markdown content of the first page
+                OCRPageObject firstPage = response.getPages().get(0);
+                System.out.println("--- Page " + firstPage.getIndex() + " ---");
+                System.out.println("Markdown Content:");
+                System.out.println(firstPage.getMarkdown());
+            } else {
+                System.out.println("No pages processed or results found.");
+            }
+
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
 # Roadmap
 
 - [ ] Make multi-modal usage more convenient (through builders, etc.)
 - [ ] Make JSON schemas for function calling more developer-friendly
-- [ ] Add support for all missing features (e.g. OCR)
+- [ ] Add support for all missing features (e.g. Codestral)
 - [ ] Handle rate limits
 - [ ] Unit tests
 
