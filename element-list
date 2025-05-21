@@ -9,6 +9,7 @@ nl.dannyj.mistral.models.completion.message
 nl.dannyj.mistral.models.completion.tool
 nl.dannyj.mistral.models.embedding
 nl.dannyj.mistral.models.model
+nl.dannyj.mistral.models.ocr
 nl.dannyj.mistral.models.usage
 nl.dannyj.mistral.net
 nl.dannyj.mistral.serialization
