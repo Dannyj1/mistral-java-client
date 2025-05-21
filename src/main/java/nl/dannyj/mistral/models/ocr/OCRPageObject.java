@@ -19,7 +19,7 @@ import java.util.List;
 public class OCRPageObject {
 
     /**
-     * The page index in a pdf document starting from 0.
+     * The page index in a PDF document starting from 0.
      *
      * @return The page index.
      */
