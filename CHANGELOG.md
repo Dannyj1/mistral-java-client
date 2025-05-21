@@ -1,3 +1,6 @@
+# 2.1.0
+- Added Mistral OCR. See the README.md for more details.
+
 # 2.0.0
 
 - **BREAKING**: Major refactor of message handling for chat completions:

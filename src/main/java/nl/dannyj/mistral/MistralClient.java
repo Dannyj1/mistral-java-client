@@ -30,11 +30,14 @@ import nl.dannyj.mistral.models.completion.ChatCompletionResponse;
 import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
 import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
 import nl.dannyj.mistral.models.model.ListModelsResponse;
+import nl.dannyj.mistral.models.ocr.OCRRequest;
+import nl.dannyj.mistral.models.ocr.OCRResponse;
 import nl.dannyj.mistral.net.ChatCompletionChunkCallback;
 import nl.dannyj.mistral.services.HttpService;
 import nl.dannyj.mistral.services.MistralService;
 import okhttp3.OkHttpClient;
 
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -72,7 +75,7 @@ public class MistralClient {
      * Default constructor that initializes the MistralClient with the API key from the environment variable "MISTRAL_API_KEY".
      */
     public MistralClient() {
-        this.apiKey = System.getenv(API_KEY_ENV_VAR);
+        this.apiKey = Objects.requireNonNull(System.getenv(API_KEY_ENV_VAR), "API key not found in environment variable " + API_KEY_ENV_VAR);
         this.httpClient = buildHttpClient(120, 10, 10);
         this.objectMapper = buildObjectMapper();
         this.mistralService = buildMistralService();
@@ -134,7 +137,7 @@ public class MistralClient {
     }
 
     /**
-     * Default constructor that initializes the MistralClient with the API key from the environment variable "MISTRAL_API_KEY" and custom timeouts.
+     * Default constructor that initializes the MistralClient with the API key from the environment variable "MISTRAL_API_KEY".
      *
      * @param readTimeoutSeconds    The read timeout in seconds
      * @param connectTimeoutSeconds The connect timeout in seconds
@@ -239,6 +242,32 @@ public class MistralClient {
      */
     public CompletableFuture<ListModelsResponse> listModelsAsync() {
         return mistralService.listModelsAsync();
+    }
+
+    /**
+     * Use the Mistral AI API to perform OCR on a document.
+     * This is a blocking method.
+     *
+     * @param request The request to perform OCR. See {@link OCRRequest}.
+     * @return The response from the Mistral AI API containing the OCR results. See {@link OCRResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    public OCRResponse performOcr(@NonNull OCRRequest request) {
+        return mistralService.performOcr(request);
+    }
+
+    /**
+     * Use the Mistral AI API to perform OCR on a document.
+     * This is a non-blocking/asynchronous method.
+     *
+     * @param request The request to perform OCR. See {@link OCRRequest}.
+     * @return A CompletableFuture that will complete with the OCR results from the Mistral AI API. See {@link OCRResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    public CompletableFuture<OCRResponse> performOcrAsync(@NonNull OCRRequest request) {
+        return mistralService.performOcrAsync(request);
     }
 
     public void createChatCompletionStream(@NonNull ChatCompletionRequest request, @NonNull ChatCompletionChunkCallback callback) {

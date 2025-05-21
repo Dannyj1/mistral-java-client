@@ -37,6 +37,8 @@ import nl.dannyj.mistral.models.completion.message.MessageRole;
 import nl.dannyj.mistral.models.embedding.EmbeddingRequest;
 import nl.dannyj.mistral.models.embedding.EmbeddingResponse;
 import nl.dannyj.mistral.models.model.ListModelsResponse;
+import nl.dannyj.mistral.models.ocr.OCRRequest;
+import nl.dannyj.mistral.models.ocr.OCRResponse;
 import nl.dannyj.mistral.net.ChatCompletionChunkCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -60,7 +62,7 @@ public class MistralService {
     /**
      * Constructor that initializes the MistralService with a provided HttpService and ObjectMapper.
      *
-     * @param httpService The HttpService to be used for making HTTP requests to the Mistral AI API
+     * @param httpService  The HttpService to be used for making HTTP requests to the Mistral AI API
      * @param objectMapper The ObjectMapper to be used for converting objects to and from JSON
      */
     public MistralService(@NonNull HttpService httpService, @NonNull ObjectMapper objectMapper) {
@@ -198,9 +200,38 @@ public class MistralService {
      *
      * @param request The request to create an embedding. See {@link EmbeddingRequest}.
      * @return A CompletableFuture that will complete with the generated embedding from the Mistral AI API. See {@link EmbeddingResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
      */
     public CompletableFuture<EmbeddingResponse> createEmbeddingAsync(@NonNull EmbeddingRequest request) {
         return CompletableFuture.supplyAsync(() -> createEmbedding(request));
+    }
+
+    /**
+     * Use the Mistral AI API to perform OCR on a document.
+     * This is a blocking method.
+     *
+     * @param request The request to perform OCR. See {@link OCRRequest}.
+     * @return The response from the Mistral AI API containing the OCR results. See {@link OCRResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    public OCRResponse performOcr(@NonNull OCRRequest request) {
+        validateRequest(request);
+        return postRequest("/ocr", request, OCRResponse.class);
+    }
+
+    /**
+     * Use the Mistral AI API to perform OCR on a document.
+     * This is a non-blocking/asynchronous method.
+     *
+     * @param request The request to perform OCR. See {@link OCRRequest}.
+     * @return A CompletableFuture that will complete with the OCR results from the Mistral AI API. See {@link OCRResponse}.
+     * @throws ConstraintViolationException if the request does not pass validation
+     * @throws UnexpectedResponseException  if an unexpected response is received from the Mistral AI API
+     */
+    public CompletableFuture<OCRResponse> performOcrAsync(@NonNull OCRRequest request) {
+        return CompletableFuture.supplyAsync(() -> performOcr(request));
     }
 
     /**
