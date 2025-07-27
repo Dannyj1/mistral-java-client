@@ -17,6 +17,7 @@
 package nl.dannyj.mistral.models.completion.tool;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,6 +61,7 @@ public class JsonSchema {
      * @return The string representing the JSON schema.
      */
     @NotNull
+    @JsonRawValue
     @JsonProperty("schema")
     private String schema;
 
@@ -71,4 +73,7 @@ public class JsonSchema {
      */
     @Builder.Default
     private boolean strict = false;
+
+
+
 }
