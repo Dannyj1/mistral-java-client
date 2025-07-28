@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Dannyj1:mistral-java-client:2.1.0'
+    implementation 'com.github.Dannyj1:mistral-java-client:2.1.1'
 }
 ```
 
@@ -52,7 +52,7 @@ dependencies {
 <dependency>
     <groupId>com.github.Dannyj1</groupId>
     <artifactId>mistral-java-client</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
 </dependency>
 ```
 
